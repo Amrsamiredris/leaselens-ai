@@ -132,7 +132,7 @@ export function PdcChequeSchedule({
         <Table>
           <TableHeader>
             <TableRow
-              className="bg-[#070e1c] hover:bg-[#070e1c]"
+              className="bg-[var(--bg-inset)] hover:bg-[var(--bg-inset)]"
               style={{ borderColor: "var(--border-default)" }}
             >
               <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em]" style={{ color: "var(--text-muted)" }}>

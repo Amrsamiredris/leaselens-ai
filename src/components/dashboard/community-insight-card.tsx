@@ -26,11 +26,8 @@ export function CommunityInsightCard({
   return (
     <div className="extracted-card mb-4 p-[1.4rem_1.6rem]">
       <div className="mb-4 flex items-center gap-2">
-        <div
-          className="flex size-8 items-center justify-center rounded-[var(--radius-md)]"
-          style={{ background: "var(--gold-dim)", color: "var(--gold-text)" }}
-        >
-          <Users className="size-4" />
+        <div className="flex size-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--bg-inset)] text-[var(--text-secondary)]">
+          <Users className="size-4" strokeWidth={1.5} />
         </div>
         <div>
           <h2
@@ -60,7 +57,7 @@ export function CommunityInsightCard({
 
       <div className="flex flex-col gap-3 text-[0.85rem]">
         <div className="flex items-start gap-2">
-          <MapPin className="mt-0.5 size-4 shrink-0" style={{ color: "var(--gold-text)" }} />
+          <MapPin className="mt-0.5 size-4 shrink-0 text-[var(--text-secondary)]" strokeWidth={1.5} />
           <div>
             <p className="font-medium" style={{ color: "var(--text-primary)" }}>
               {insight.district}
@@ -114,15 +111,8 @@ export function CommunityInsightCard({
           </div>
         </div>
 
-        <p
-          className="flex items-start gap-2 rounded-[var(--radius-md)] border p-3"
-          style={{
-            background: "var(--gold-dim)",
-            borderColor: "var(--gold-border)",
-            color: "var(--text-secondary)",
-          }}
-        >
-          <Sparkles className="mt-0.5 size-4 shrink-0" style={{ color: "var(--gold-text)" }} />
+        <p className="flex items-start gap-2 rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-inset)] p-3 text-[var(--text-secondary)]">
+          <Sparkles className="mt-0.5 size-4 shrink-0 text-[var(--text-secondary)]" strokeWidth={1.5} />
           <span>
             <strong className="font-medium" style={{ color: "var(--text-primary)" }}>
               Opportunity:

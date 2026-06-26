@@ -125,8 +125,8 @@ export function UploadZone({
         }}
         onKeyDown={onKeyDown}
         className={cn(
-          "upload-zone border border-dashed border-[#f0c55a]/30 transition-colors hover:border-[#f0c55a]/70",
-          isDragging && "border-[#f0c55a]",
+          "upload-zone",
+          isDragging && "border-[var(--text-secondary)] bg-[var(--bg-card-muted)]",
           uploadState === "loading" && "relative cursor-wait overflow-hidden"
         )}
       >
@@ -141,31 +141,31 @@ export function UploadZone({
         {uploadState === "loading" ? (
           <>
             <div
-              className="pointer-events-none absolute inset-0 animate-pulse bg-[#f0c55a]/10"
+              className="pointer-events-none absolute inset-0 ll-shimmer"
               aria-hidden
             />
             <div className="relative flex flex-col items-center gap-3">
               <div className="flex items-center gap-2">
-                <span className="ll-pulse-dot" style={{ background: "var(--gold-text)" }} aria-hidden />
-                <p
-                  className="text-[0.92rem] font-medium"
-                  style={{ color: "var(--gold-text)" }}
-                >
+                <span className="ll-pulse-dot" aria-hidden />
+                <p className="text-[0.92rem] font-medium text-[var(--text-primary)]">
                   AI extracting clauses…
                 </p>
               </div>
-              <p className="text-[0.8rem]" style={{ color: "var(--text-secondary)" }}>
+              <p className="text-[0.8rem] text-[var(--text-secondary)]">
                 Parsing tenant, rent, Ejari expiry, and payment terms
               </p>
               <div className="flex w-full max-w-xs flex-col gap-2">
-                <div className="h-2 w-full animate-pulse rounded-full bg-[#f0c55a]/10" />
-                <div className="h-2 w-4/5 animate-pulse rounded-full bg-[#f0c55a]/10" />
+                <div className="h-2 w-full animate-pulse rounded-full bg-[var(--bg-card-muted)]" />
+                <div className="h-2 w-4/5 animate-pulse rounded-full bg-[var(--bg-card-muted)]" />
               </div>
             </div>
           </>
         ) : (
           <>
-            <FileUp className="mx-auto mb-3 size-10 text-[#f0c55a]" strokeWidth={1.5} />
+            <FileUp
+              className="mx-auto mb-3 size-10 text-[var(--text-secondary)]"
+              strokeWidth={1.5}
+            />
             <p
               className="text-[0.92rem] font-medium"
               style={{ color: "var(--text-primary)" }}
@@ -186,7 +186,7 @@ export function UploadZone({
                 color: "var(--text-secondary)",
               }}
             >
-              <FileUp className="size-3.5" style={{ color: "var(--gold-text)" }} />
+              <FileUp className="size-3.5 text-[var(--text-muted)]" strokeWidth={1.5} />
               PDF · max 10 MB
             </span>
           </>

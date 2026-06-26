@@ -1,27 +1,14 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 
 import { AppShell } from "@/components/layout/app-shell";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const dmSerifDisplay = DM_Serif_Display({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: `${BRAND.product} | ${BRAND.challenge}`,
@@ -44,18 +31,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(inter.variable, dmSerifDisplay.variable)}>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={cn("font-sans antialiased", inter.className)}>
-        <TooltipProvider>
-          <AppShell>{children}</AppShell>
-          <Toaster position="top-right" closeButton />
-        </TooltipProvider>
+    <html lang="en" className={cn(GeistSans.variable)} suppressHydrationWarning>
+      <body className={cn("font-sans antialiased", GeistSans.className)}>
+        <ThemeProvider>
+          <TooltipProvider>
+            <AppShell>{children}</AppShell>
+            <Toaster position="top-right" closeButton />
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

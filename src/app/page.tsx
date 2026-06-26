@@ -22,7 +22,7 @@ function DemoBanner() {
   if (!visible) return null;
 
   return (
-    <div className="mb-4 flex items-center justify-between rounded-lg border border-[#f0a830]/30 bg-[#f0a830]/10 px-4 py-3 text-sm text-[#f0a830]">
+    <div className="mb-4 flex items-center justify-between rounded-2xl border border-[var(--amber-border)] bg-[var(--amber-dim)] px-4 py-3 text-sm text-[var(--amber-text)]">
       <p>
         Demo mode · Click &apos;Load demo data&apos; to explore all features, or
         upload a real tenancy PDF with your Anthropic API key
@@ -30,7 +30,7 @@ function DemoBanner() {
       <button
         type="button"
         onClick={dismiss}
-        className="ml-4 shrink-0 border-none bg-transparent p-1 text-[#f0a830] hover:opacity-80"
+        className="ml-4 shrink-0 border-none bg-transparent p-1 text-[var(--amber-text)] hover:opacity-80"
         aria-label="Dismiss demo banner"
       >
         <X className="size-4" />

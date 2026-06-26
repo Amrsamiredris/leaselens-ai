@@ -1,5 +1,6 @@
 import { TrendingUp } from "lucide-react";
 
+import { StaggerGrid, StaggerItem } from "@/components/motion/stagger-grid";
 import { DASHBOARD_METRICS } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -34,42 +35,42 @@ const metrics = [
 
 export function MetricCards() {
   return (
-    <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <StaggerGrid className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {metrics.map((metric) => (
-        <div
-          key={metric.label}
-          className="metric-card border-l-2 border-[#f0c55a] transition-colors duration-200 hover:bg-[#122540]"
-        >
-          <p
-            className="mb-2 text-[0.68rem] font-medium uppercase tracking-[0.1em]"
-            style={{ color: "var(--text-muted)" }}
-          >
-            {metric.label}
-          </p>
-          <div className="flex items-center gap-2">
-            <p
+        <StaggerItem key={metric.label}>
+          <div className="metric-card">
+            <p className="mb-2 text-[0.68rem] font-medium uppercase tracking-[0.1em] text-[var(--text-muted)]">
+              {metric.label}
+            </p>
+            <div className="flex items-center gap-2">
+              <p
+                className={cn(
+                  "text-4xl font-bold leading-none tabular-nums tracking-tight",
+                  metric.valueClass
+                )}
+              >
+                {metric.value}
+              </p>
+              <TrendingUp
+                className="size-4 shrink-0 text-[var(--green-text)]"
+                strokeWidth={1.5}
+                aria-hidden
+              />
+            </div>
+            <div
               className={cn(
-                "font-display text-4xl font-bold leading-none tabular-nums",
-                metric.valueClass
+                "mt-[0.35rem] flex items-center gap-2 text-[0.78rem]",
+                metric.subClass
               )}
             >
-              {metric.value}
-            </p>
-            <TrendingUp className="size-4 shrink-0 text-[#3dc48a]" aria-hidden />
+              {metric.showPulse && <span className="ll-pulse-dot" aria-hidden />}
+              <span className={metric.showPulse ? "font-medium" : undefined}>
+                {metric.sub}
+              </span>
+            </div>
           </div>
-          <div
-            className={cn(
-              "mt-[0.35rem] flex items-center gap-2 text-[0.78rem]",
-              metric.subClass
-            )}
-          >
-            {metric.showPulse && <span className="ll-pulse-dot" aria-hidden />}
-            <span className={metric.showPulse ? "font-medium" : undefined}>
-              {metric.sub}
-            </span>
-          </div>
-        </div>
+        </StaggerItem>
       ))}
-    </div>
+    </StaggerGrid>
   );
 }

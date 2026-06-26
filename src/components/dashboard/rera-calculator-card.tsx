@@ -119,7 +119,7 @@ export function ReraCalculatorCard({
             RERA Decree No. 43 of 2013 band rules
           </p>
         </div>
-        <Scale className="size-5 shrink-0" style={{ color: "var(--gold-text)" }} />
+        <Scale className="size-5 shrink-0 text-[var(--text-secondary)]" strokeWidth={1.5} />
       </div>
 
       <div className="flex flex-col gap-4">
@@ -212,9 +212,9 @@ export function ReraCalculatorCard({
                 : `Up to ${result.maxIncreasePercent}%`}
             </span>
           </div>
-          <div className="mt-2 h-1 w-full rounded bg-[#1a2f4a]">
+          <div className="mt-2 h-1 w-full rounded-full bg-[var(--bg-card-muted)]">
             <div
-              className="h-1 rounded bg-[#f0c55a] transition-all"
+              className="h-1 rounded-full bg-[var(--text-primary)] transition-all"
               style={{ width: `${result.percentBelowMarket}%` }}
             />
           </div>

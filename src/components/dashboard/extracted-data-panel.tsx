@@ -101,7 +101,7 @@ export function ExtractedDataPanel({
           <FieldRow label="Landlord" value={data.landlordName} />
           <FieldRow label="Property address" value={data.propertyAddress} />
 
-          <hr className="my-2 border-[#1a2f4a]" />
+          <hr className="my-2 border-[var(--border-default)]" />
 
           <FieldRow label="Annual rent" value={data.annualRent} />
           <FieldRow label="Payment terms" value={data.paymentTerms} />
@@ -111,13 +111,13 @@ export function ExtractedDataPanel({
             valueClassName="text-[var(--green-text)]"
           />
 
-          <hr className="my-2 border-[#1a2f4a]" />
+          <hr className="my-2 border-[var(--border-default)]" />
 
           <FieldRow
             label="Ejari expiry"
             value={
               expiryUrgent ? (
-                <span className="inline-flex items-center text-[#f0a830]">
+                <span className="inline-flex items-center text-[var(--amber-text)]">
                   <AlertTriangle className="mr-1 size-3 shrink-0" aria-hidden />
                   {data.ejariExpiry}
                 </span>

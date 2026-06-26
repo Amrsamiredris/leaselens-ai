@@ -64,11 +64,8 @@ export default function SettingsPage() {
           return (
             <div key={section.title} className="extracted-card p-6">
               <div className="mb-4 flex items-center gap-2">
-                <div
-                  className="flex size-8 items-center justify-center rounded-[var(--radius-md)]"
-                  style={{ background: "var(--gold-dim)", color: "var(--gold-text)" }}
-                >
-                  <Icon className="size-4" />
+                <div className="flex size-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--bg-inset)] text-[var(--text-secondary)]">
+                  <Icon className="size-4" strokeWidth={1.5} />
                 </div>
                 <h3 className="font-semibold" style={{ color: "var(--text-primary)" }}>
                   {section.title}
@@ -77,7 +74,7 @@ export default function SettingsPage() {
               <ul className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
                 {section.items.map((item) => (
                   <li key={item} className="flex gap-2">
-                    <span style={{ color: "var(--gold-text)" }}>·</span>
+                    <span className="text-[var(--text-muted)]">·</span>
                     {item}
                   </li>
                 ))}

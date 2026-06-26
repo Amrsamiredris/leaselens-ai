@@ -20,13 +20,7 @@ export default function LeasesPage() {
       />
 
       <div className="mx-auto max-w-7xl">
-        <div
-          className="overflow-hidden rounded-[var(--radius-lg)] border"
-          style={{
-            background: "var(--bg-card)",
-            borderColor: "var(--border-default)",
-          }}
-        >
+        <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--bg-card)] shadow-float">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-sm">
               <thead>

@@ -4,25 +4,14 @@ type PageHeaderProps = {
   showTrackBadge?: boolean;
 };
 
-export function PageHeader({
-  title,
-  description,
-}: PageHeaderProps) {
+export function PageHeader({ title, description }: PageHeaderProps) {
   return (
     <header className="mb-8">
-      <h1
-        className="text-[1.4rem] font-semibold"
-        style={{ color: "var(--text-primary)" }}
-      >
+      <h1 className="text-2xl font-semibold tracking-tight text-[var(--text-primary)]">
         {title}
       </h1>
       {description && (
-        <p
-          className="mt-1 text-[0.88rem]"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          {description}
-        </p>
+        <p className="mt-1 text-sm text-[var(--text-secondary)]">{description}</p>
       )}
     </header>
   );
