@@ -1,5 +1,8 @@
-import { Building2, Calendar, CreditCard, User } from "lucide-react";
+"use client";
 
+import { Building2, Calendar, CreditCard, FileText, User } from "lucide-react";
+
+import { EjariCountdown } from "@/components/dashboard/ejari-countdown";
 import type { LeaseExtraction, UploadState } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -9,11 +12,13 @@ type ExtractedDataPanelProps = {
 };
 
 const fields = [
-  { key: "propertyAddress", label: "Property", icon: Building2 },
-  { key: "tenantName", label: "Tenant", icon: User },
-  { key: "annualRent", label: "Annual rent", icon: CreditCard },
-  { key: "ejariExpiry", label: "Ejari expiry", icon: Calendar },
-  { key: "paymentTerms", label: "Payment terms", icon: CreditCard },
+  { key: "propertyAddress" as const, label: "Property", icon: Building2 },
+  { key: "tenantName" as const, label: "Tenant", icon: User },
+  { key: "landlordName" as const, label: "Landlord", icon: User },
+  { key: "annualRent" as const, label: "Annual rent", icon: CreditCard },
+  { key: "ejariExpiry" as const, label: "Ejari expiry", icon: Calendar },
+  { key: "paymentTerms" as const, label: "Payment terms", icon: CreditCard },
+  { key: "contractStartDate" as const, label: "Contract start", icon: Calendar },
 ] as const;
 
 export function ExtractedDataPanel({
@@ -48,25 +53,51 @@ export function ExtractedDataPanel({
           </p>
         </div>
       ) : (
-        <div className="flex flex-col divide-y divide-border">
-          {fields.map((field) => {
-            const Icon = field.icon;
-            const value = data[field.key];
+        <div className="flex flex-col gap-4">
+          <EjariCountdown ejariExpiryDate={data.ejariExpiryDate} />
 
-            return (
-              <div key={field.key} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="size-4" />
+          <div className="flex flex-col divide-y divide-border">
+            {fields.map((field) => {
+              const Icon = field.icon;
+              const value = data[field.key];
+
+              return (
+                <div
+                  key={field.key}
+                  className="flex items-start gap-3 py-3 first:pt-0 last:pb-0"
+                >
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <Icon className="size-4" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="brand-label">{field.label}</p>
+                    <p className="mt-0.5 text-sm font-semibold text-foreground">
+                      {value}
+                    </p>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="brand-label">{field.label}</p>
-                  <p className="mt-0.5 text-sm font-semibold text-foreground">
-                    {value}
-                  </p>
-                </div>
+              );
+            })}
+          </div>
+
+          {data.specialClauses.length > 0 && (
+            <div className="rounded-lg border border-border bg-muted/20 p-3">
+              <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <FileText className="size-3.5" />
+                Special clauses
               </div>
-            );
-          })}
+              <ul className="flex flex-col gap-1.5">
+                {data.specialClauses.map((clause) => (
+                  <li
+                    key={clause}
+                    className="text-sm text-foreground/90 before:mr-2 before:text-primary before:content-['•']"
+                  >
+                    {clause}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>

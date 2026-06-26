@@ -23,17 +23,30 @@
 - [x] Upcoming Ejari Renewals (90 days) with urgent amber styling when high
 - [x] Pending Cheques This Month (AED)
 
-### AI contract upload (simulated)
+### AI contract upload (Claude + fallback)
 - [x] Drag-and-drop PDF upload zone
-- [x] 3-second "AI extracting clauses..." loading state
+- [x] Base64 encode PDF client-side, POST to `/api/extract-lease`
+- [x] Anthropic Claude Sonnet 4.6 document extraction (`ANTHROPIC_API_KEY`)
+- [x] Mock data fallback with `console.warn` when API fails
 - [x] Extracted data panel after upload
 
-### Extracted lease data (demo lease LST-00002)
-- [x] Tenant Name: Ahmed Al Mansoori
-- [x] Annual Rent: AED 211,000
-- [x] Ejari Expiry: Oct 15, 2026
-- [x] Payment Terms: 4 Cheques
-- [x] Property: Saadiyat Island Towers, Saadiyat Island
+### Extracted lease data
+- [x] Tenant, landlord, property, rent, Ejari expiry, payment terms, contract start
+- [x] Special clauses (up to 3)
+- [x] 90-day Ejari countdown ring with compliance bands (green / amber / red / flashing)
+
+### RERA rent increase calculator
+- [x] Current rent pre-filled from extraction
+- [x] Market rate manual input or Dubai zone dropdown (5 zones)
+- [x] RERA Decree No. 43 of 2013 band logic (0–20% max increase)
+- [x] Colored badge: red (no increase), amber (5–10%), green (15–20%)
+- [x] DLD Smart Rental Index disclaimer
+
+### PDC cheque schedule
+- [x] Auto-generated from payment terms (e.g. 4 cheques)
+- [x] Quarterly timeline with adjustable first-cheque offset
+- [x] Status toggle: Pending / Cleared / Bounced
+- [x] Bounced cheque legal warning banner (UAE Cheques Law)
 
 ### Community context (Track 3)
 - [x] Resident experience score from `sample_communities.csv`
@@ -42,8 +55,12 @@
 
 ### Action automation
 - [x] Generate 90-Day Renewal Notice button
-- [x] Modal with WhatsApp and email drafts
-- [x] Copy-to-clipboard per channel
+- [x] Tabs: WhatsApp Message / Formal Email
+- [x] Populated with tenant, address, rent, RERA max rent, Ejari expiry
+- [x] Copy to clipboard on both tabs
+- [x] Download as .txt on email tab
+- [x] English + hardcoded Arabic templates
+- [x] RERA Compliant badge (Decree No. 43 of 2013)
 
 ## Submission checklist
 
@@ -56,7 +73,6 @@
 
 ## Not in scope
 
-- [ ] Real PDF parsing / LLM API
-- [ ] Ejari / RERA live API integrations
+- [ ] Live Ejari / DLD Smart Rental Index API
 - [ ] Database and authentication
-- [ ] Lease Documents and Settings pages
+- [ ] Lease Documents and Settings pages (functional stubs only)

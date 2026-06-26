@@ -1,15 +1,32 @@
+"use client";
+
+import { useMemo } from "react";
+
 import { ExtractedDataPanel } from "@/components/dashboard/extracted-data-panel";
 import { CommunityInsightCard } from "@/components/dashboard/community-insight-card";
 import { MetricCards } from "@/components/dashboard/metric-cards";
+import {
+  PdcChequeSchedule,
+  useChequeSchedule,
+} from "@/components/dashboard/pdc-cheque-schedule";
 import { RenewalNoticeDialog } from "@/components/dashboard/renewal-notice-dialog";
+import { ReraCalculatorCard } from "@/components/dashboard/rera-calculator-card";
 import { UploadZone } from "@/components/dashboard/upload-zone";
-import type { CommunityInsight, LeaseExtraction, UploadState } from "@/lib/types";
+import { parseChequeCount } from "@/lib/lease-utils";
+import type {
+  CommunityInsight,
+  LeaseExtraction,
+  ReraCalculation,
+  UploadState,
+} from "@/lib/types";
 
 type DashboardBentoProps = {
   uploadState: UploadState;
   fileName: string | null;
   extraction: LeaseExtraction;
   communityInsight: CommunityInsight;
+  reraResult: ReraCalculation;
+  onReraChange: (result: ReraCalculation) => void;
   onUpload: (file: File) => void;
   onReset: () => void;
 };
@@ -19,15 +36,30 @@ export function DashboardBento({
   fileName,
   extraction,
   communityInsight,
+  reraResult,
+  onReraChange,
   onUpload,
   onReset,
 }: DashboardBentoProps) {
+  const isDone = uploadState === "done";
+  const showCheques = useMemo(
+    () => isDone && parseChequeCount(extraction.paymentTerms) !== null,
+    [isDone, extraction.paymentTerms]
+  );
+
+  const {
+    schedule,
+    setSchedule,
+    firstChequeOffsetDays,
+    setFirstChequeOffsetDays,
+  } = useChequeSchedule(extraction, showCheques);
+
   return (
     <div className="flex flex-col gap-6">
       <MetricCards />
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 flex flex-col gap-5">
           <div className="brand-card h-full p-5 md:p-6">
             <div className="mb-4">
               <h2 className="font-display text-lg font-semibold text-foreground">
@@ -44,10 +76,27 @@ export function DashboardBento({
               onReset={onReset}
             />
           </div>
+
+          {showCheques && (
+            <PdcChequeSchedule
+              lease={extraction}
+              schedule={schedule}
+              onScheduleChange={setSchedule}
+              firstChequeOffsetDays={firstChequeOffsetDays}
+              onOffsetChange={setFirstChequeOffsetDays}
+            />
+          )}
         </div>
 
         <div className="flex flex-col gap-5 lg:col-span-5">
           <ExtractedDataPanel uploadState={uploadState} data={extraction} />
+
+          {isDone && (
+            <ReraCalculatorCard
+              lease={extraction}
+              onCalculationChange={onReraChange}
+            />
+          )}
 
           <CommunityInsightCard
             uploadState={uploadState}
@@ -63,7 +112,11 @@ export function DashboardBento({
                 Generate compliant 90-day notices from extracted data
               </p>
             </div>
-            <RenewalNoticeDialog uploadState={uploadState} lease={extraction} />
+            <RenewalNoticeDialog
+              uploadState={uploadState}
+              lease={extraction}
+              rera={reraResult}
+            />
           </div>
         </div>
       </div>

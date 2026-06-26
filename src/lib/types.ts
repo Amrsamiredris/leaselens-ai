@@ -44,12 +44,43 @@ export interface LeaseCompliance extends Listing {
   property_label: string;
 }
 
-export type LeaseExtraction = {
+/** Raw fields returned by Claude extraction API */
+export type LeaseExtractionRaw = {
   tenantName: string;
+  annualRentAED: number;
+  ejariExpiryDate: string;
+  paymentTerms: string;
+  landlordName: string;
+  propertyAddress: string;
+  contractStartDate: string;
+  specialClauses: string[];
+};
+
+export type LeaseExtraction = LeaseExtractionRaw & {
   annualRent: string;
   ejariExpiry: string;
-  paymentTerms: string;
-  propertyAddress: string;
+};
+
+export type ReraCalculation = {
+  maxIncreasePercent: number;
+  newMaxRent: number;
+  percentBelowMarket: number;
+  badgeVariant: "none" | "low" | "medium" | "high";
+};
+
+export type ChequeStatus = "Pending" | "Cleared" | "Bounced";
+
+export type ChequeScheduleItem = {
+  number: number;
+  dueDate: string;
+  amountAed: number;
+  status: ChequeStatus;
+};
+
+export type DubaiZone = {
+  id: string;
+  label: string;
+  avgRentAed: number;
 };
 
 export type DashboardMetrics = {
@@ -73,4 +104,13 @@ export type LeasePortfolioData = {
   communityInsight: CommunityInsight;
   sampleLeases: LeaseCompliance[];
   dataNotice: string;
+};
+
+export type EjariCountdownStatus = {
+  daysRemaining: number;
+  label: string;
+  ringClass: string;
+  pulse: boolean;
+  flash: boolean;
+  noticeWindowOpened: string;
 };

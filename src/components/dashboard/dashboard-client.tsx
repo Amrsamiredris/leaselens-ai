@@ -1,13 +1,28 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { DashboardBento } from "@/components/dashboard/dashboard-bento";
 import { PageHeader } from "@/components/layout/page-header";
 import { BRAND } from "@/lib/brand";
-import { MOCK_LEASE_EXTRACTION, PORTFOLIO } from "@/lib/mock-data";
-import type { CommunityInsight, LeaseExtraction, UploadState } from "@/lib/types";
+import { fileToBase64 } from "@/lib/lease-utils";
+import {
+  MOCK_LEASE_EXTRACTION,
+  PORTFOLIO,
+} from "@/lib/mock-data";
+import { calculateReraIncrease } from "@/lib/rera";
+import type {
+  CommunityInsight,
+  LeaseExtraction,
+  ReraCalculation,
+  UploadState,
+} from "@/lib/types";
+
+const DEFAULT_RERA = calculateReraIncrease(
+  MOCK_LEASE_EXTRACTION.annualRentAED,
+  180_000
+);
 
 export function DashboardClient() {
   const [uploadState, setUploadState] = useState<UploadState>("idle");
@@ -16,51 +31,59 @@ export function DashboardClient() {
   const [communityInsight, setCommunityInsight] = useState<CommunityInsight | null>(
     null
   );
-  const fileRef = useRef<File | null>(null);
+  const [reraResult, setReraResult] = useState<ReraCalculation>(DEFAULT_RERA);
+
+  const handleReraChange = useCallback((result: ReraCalculation) => {
+    setReraResult(result);
+  }, []);
 
   const handleUpload = useCallback(async (file: File) => {
-    fileRef.current = file;
     setFileName(file.name);
     setUploadState("loading");
     setExtraction(null);
     setCommunityInsight(null);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      const pdfBase64 = await fileToBase64(file);
 
-      const response = await fetch("/api/extract", {
+      const response = await fetch("/api/extract-lease", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pdfBase64 }),
       });
-
-      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error ?? "Extraction failed");
+        throw new Error("Extraction API returned an error");
       }
 
+      const data = (await response.json()) as { extraction: LeaseExtraction };
+
       setExtraction(data.extraction);
-      setCommunityInsight(data.communityInsight);
+      setCommunityInsight(PORTFOLIO.communityInsight);
       setUploadState("done");
       toast.success("Contract processed", {
-        description: data.message,
+        description: "Lease terms extracted with Claude",
       });
     } catch (err) {
-      setUploadState("idle");
-      setFileName(null);
-      toast.error("Upload failed", {
-        description: err instanceof Error ? err.message : "Please try again",
+      console.warn(
+        "API extraction failed, using mock data fallback:",
+        err instanceof Error ? err.message : err
+      );
+      setExtraction(MOCK_LEASE_EXTRACTION);
+      setCommunityInsight(PORTFOLIO.communityInsight);
+      setUploadState("done");
+      toast.success("Contract processed", {
+        description: "Demo extraction loaded (API fallback)",
       });
     }
   }, []);
 
   const handleReset = useCallback(() => {
-    fileRef.current = null;
     setUploadState("idle");
     setFileName(null);
     setExtraction(null);
     setCommunityInsight(null);
+    setReraResult(DEFAULT_RERA);
   }, []);
 
   const leaseData = extraction ?? MOCK_LEASE_EXTRACTION;
@@ -90,6 +113,8 @@ export function DashboardClient() {
             fileName={fileName}
             extraction={leaseData}
             communityInsight={communityInsight ?? PORTFOLIO.communityInsight}
+            reraResult={reraResult}
+            onReraChange={handleReraChange}
             onUpload={handleUpload}
             onReset={handleReset}
           />

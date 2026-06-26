@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Mail, MessageCircle } from "lucide-react";
+import { Check, Copy, Download } from "lucide-react";
 import { toast } from "sonner";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,13 +14,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-import { buildEmailMessage, buildWhatsAppMessage } from "@/lib/mock-data";
-import type { LeaseExtraction, UploadState } from "@/lib/types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  buildEmailMessage,
+  buildEmailMessageArabic,
+  buildWhatsAppMessage,
+  buildWhatsAppMessageArabic,
+} from "@/lib/mock-data";
+import type { LeaseExtraction, ReraCalculation, UploadState } from "@/lib/types";
+import { formatAed } from "@/lib/rera";
 
 type RenewalNoticeDialogProps = {
   uploadState: UploadState;
   lease: LeaseExtraction;
+  rera: ReraCalculation;
 };
 
 function CopyButton({ text, label }: { text: string; label: string }) {
@@ -46,15 +54,35 @@ function CopyButton({ text, label }: { text: string; label: string }) {
     >
       {copied ? (
         <>
-          <Check className="size-4" />
+          <Check data-icon="inline-start" />
           Copied
         </>
       ) : (
         <>
-          <Copy className="size-4" />
-          Copy {label}
+          <Copy data-icon="inline-start" />
+          Copy to clipboard
         </>
       )}
+    </Button>
+  );
+}
+
+function DownloadTxtButton({ text, fileName }: { text: string; fileName: string }) {
+  const handleDownload = () => {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = fileName;
+    anchor.click();
+    URL.revokeObjectURL(url);
+    toast.success("Downloaded as .txt");
+  };
+
+  return (
+    <Button type="button" variant="secondary" size="sm" onClick={handleDownload}>
+      <Download data-icon="inline-start" />
+      Download as .txt
     </Button>
   );
 }
@@ -62,10 +90,16 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 export function RenewalNoticeDialog({
   uploadState,
   lease,
+  rera,
 }: RenewalNoticeDialogProps) {
   const isEnabled = uploadState === "done";
-  const whatsappMessage = buildWhatsAppMessage(lease);
-  const emailMessage = buildEmailMessage(lease);
+  const context = { lease, rera };
+
+  const whatsappEn = buildWhatsAppMessage(context);
+  const whatsappAr = buildWhatsAppMessageArabic(context);
+  const emailEn = buildEmailMessage(context);
+  const emailAr = buildEmailMessageArabic(context);
+  const emailFull = `${emailEn}\n\n---\n\n${emailAr}`;
 
   return (
     <Dialog>
@@ -75,44 +109,85 @@ export function RenewalNoticeDialog({
       >
         Generate 90-day renewal notice
       </DialogTrigger>
-      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-xl">
+      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>90-day renewal notice</DialogTitle>
+          <div className="flex flex-wrap items-center gap-2">
+            <DialogTitle>90-day renewal notice</DialogTitle>
+            <Badge variant="secondary" className="border border-primary/20 bg-primary/5 text-primary">
+              RERA Compliant — Decree No. 43 of 2013
+            </Badge>
+          </div>
           <DialogDescription>
-            Drafted for {lease.tenantName} at {lease.propertyAddress}. Ready
-            for WhatsApp or email — copy and send.
+            Drafted for {lease.tenantName} at {lease.propertyAddress}. Current
+            rent {lease.annualRent}, max renewal {formatAed(rera.newMaxRent)},
+            Ejari expires {lease.ejariExpiry}.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-6">
-          <section className="flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-                <MessageCircle className="size-4 text-primary" />
-                WhatsApp message
-              </div>
-              <CopyButton text={whatsappMessage} label="WhatsApp" />
-            </div>
-            <pre className="whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed text-foreground/80">
-              {whatsappMessage}
-            </pre>
-          </section>
+        <Tabs defaultValue="whatsapp">
+          <TabsList className="w-full">
+            <TabsTrigger value="whatsapp" className="flex-1">
+              WhatsApp Message
+            </TabsTrigger>
+            <TabsTrigger value="email" className="flex-1">
+              Formal Email
+            </TabsTrigger>
+          </TabsList>
 
-          <Separator />
-
-          <section className="flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-                <Mail className="size-4 text-primary" />
-                Email draft
-              </div>
-              <CopyButton text={emailMessage} label="Email" />
+          <TabsContent value="whatsapp" className="flex flex-col gap-4">
+            <div className="flex items-center justify-end">
+              <CopyButton text={whatsappEn} label="WhatsApp" />
             </div>
-            <pre className="whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed text-foreground/80">
-              {emailMessage}
-            </pre>
-          </section>
-        </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                English
+              </p>
+              <pre className="whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed text-foreground/80">
+                {whatsappEn}
+              </pre>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Arabic
+              </p>
+              <pre
+                dir="rtl"
+                className="whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed text-foreground/80"
+              >
+                {whatsappAr}
+              </pre>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="email" className="flex flex-col gap-4">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <CopyButton text={emailFull} label="Email" />
+              <DownloadTxtButton
+                text={emailFull}
+                fileName={`renewal-notice-${lease.tenantName.replace(/\s+/g, "-").toLowerCase()}.txt`}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                English
+              </p>
+              <pre className="whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed text-foreground/80">
+                {emailEn}
+              </pre>
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Arabic
+              </p>
+              <pre
+                dir="rtl"
+                className="whitespace-pre-wrap rounded-lg border border-border bg-muted/30 p-4 text-sm leading-relaxed text-foreground/80"
+              >
+                {emailAr}
+              </pre>
+            </div>
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   );
