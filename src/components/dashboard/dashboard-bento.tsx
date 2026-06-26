@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ExtractedDataPanel } from "@/components/dashboard/extracted-data-panel";
+import { CommunityInsightCard } from "@/components/dashboard/community-insight-card";
 import { MetricCards } from "@/components/dashboard/metric-cards";
 import { RenewalNoticeDialog } from "@/components/dashboard/renewal-notice-dialog";
 import { UploadZone } from "@/components/dashboard/upload-zone";
@@ -53,6 +54,8 @@ export function DashboardBento({
             uploadState={uploadState}
             data={MOCK_LEASE_EXTRACTION}
           />
+
+          <CommunityInsightCard uploadState={uploadState} />
 
           <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
             <CardHeader className="pb-3">

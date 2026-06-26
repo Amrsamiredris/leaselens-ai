@@ -11,9 +11,9 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LeaseLens AI | Property Management Dashboard",
+  title: "LeaseLens AI | Abu Dhabi AI PropTech Challenge",
   description:
-    "Smart property management for UAE real estate. Track Ejari, RERA compliance, and automate lease renewals.",
+    "Future Communities track — smart lease compliance dashboard for Abu Dhabi property managers. Built for the Abu Dhabi AI PropTech Challenge at Hub71.",
 };
 
 export default function RootLayout({

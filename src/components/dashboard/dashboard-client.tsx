@@ -3,8 +3,10 @@
 import { useCallback, useRef, useState } from "react";
 
 import { DashboardBento } from "@/components/dashboard/dashboard-bento";
+import { TrackBadge } from "@/components/TrackBadge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { PORTFOLIO } from "@/lib/mock-data";
 import type { UploadState } from "@/lib/types";
 
 export function DashboardClient() {
@@ -30,11 +32,16 @@ export function DashboardClient() {
       <header className="flex h-14 shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-4">
         <SidebarTrigger aria-label="Toggle navigation" />
         <Separator orientation="vertical" className="h-4" />
-        <div>
-          <h1 className="text-sm font-semibold text-slate-900">Dashboard</h1>
-          <p className="text-xs text-muted-foreground">
-            Property compliance overview
-          </p>
+        <div className="flex flex-1 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-3">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-sm font-semibold text-slate-900">Dashboard</h1>
+              <TrackBadge track="communities" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Abu Dhabi community lease compliance
+            </p>
+          </div>
         </div>
       </header>
 
@@ -45,6 +52,9 @@ export function DashboardClient() {
             fileName={fileName}
             onUpload={handleUpload}
           />
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            {PORTFOLIO.dataNotice}
+          </p>
         </div>
       </main>
     </div>

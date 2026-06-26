@@ -1,0 +1,39 @@
+---
+description: Abu Dhabi AI PropTech Challenge — event context for every AI request in this project
+alwaysApply: true
+---
+
+# Event context
+
+This project is **LeaseLens AI** for the **Abu Dhabi AI PropTech Challenge**
+("Building the Intelligence Layer for Land, Investment and Communities") — a
+one-day event at Hub71. Optimize for **demo-by-tonight**, not production.
+
+## Track
+
+**Future Communities (Track 3)** — AI lease operations that keep Abu Dhabi
+residential communities compliant and occupancy-stable.
+
+## What this codebase is
+
+- Next.js 14 (App Router) + TypeScript + Tailwind + shadcn/ui bento dashboard.
+- `src/components/dashboard/upload-zone.tsx` — drag-drop PDF → 3s mock "AI extracting clauses..."
+- `src/components/dashboard/extracted-data-panel.tsx` — shows parsed lease fields after upload.
+- `src/components/dashboard/renewal-notice-dialog.tsx` — WhatsApp/email renewal drafts.
+- `scripts/build-lease-data.mjs` — preprocesses starter-kit CSVs into `src/data/lease-portfolio.json`.
+- Real model calls belong in a route handler so keys stay server-side; keys in `.env.local` only.
+
+## Event data
+
+- Synthetic datasets from starter-kit, joined on `district`:
+  `sample_listings`, `sample_communities`, `districts`.
+- Source: https://github.com/abu-dhabi-ai-proptech-challenge/starter-kit/tree/main/data
+- Ejari/expiry/tenant fields are **synthetic demo extensions** on listing rows — not in the CSV.
+- Never present synthetic values as real Abu Dhabi market data.
+
+## How to help this team win
+
+- Bias toward the **single demo path working end to end**; cut scope before adding features.
+- Keep components small and obvious.
+- Judging rewards: sharp problem framing, working prototype, AI doing real work,
+  demo readiness, and credible impact.

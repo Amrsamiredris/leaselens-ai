@@ -1,60 +1,62 @@
-# LeaseLens AI - MVP Features
+# LeaseLens AI — Features
 
-## Implemented (Hackathon Demo)
+## Hackathon integration
+
+- [x] Official starter-kit CSVs vendored in `data/`
+- [x] Build script maps listings schema to dashboard metrics
+- [x] Track 3 (Future Communities) badge in dashboard header
+- [x] Community insight card joined on `district` from `sample_communities.csv`
+- [x] Abu Dhabi demo lease (LST-00002, Saadiyat Island) replaces Dubai mock data
+- [x] Synthetic data disclaimer in README and dashboard footer
+- [x] `.cursor/rules/event.mdc` for Cursor hackathon context
+- [x] Submission and deploy instructions in README
+
+## Dashboard MVP
 
 ### Navigation
 - [x] Left sidebar with LeaseLens branding
-- [x] Links: Dashboard, Lease Documents, Settings (placeholder routes)
-- [x] Collapsible sidebar with mobile drawer via hamburger trigger
-- [x] Active state on Dashboard
+- [x] Links: Dashboard, Lease Documents, Settings (placeholder)
+- [x] Collapsible sidebar with mobile drawer
 
-### Dashboard KPIs
-- [x] Active Leases metric (142)
-- [x] Upcoming Ejari Renewals - Next 90 Days (18) with urgent amber styling
-- [x] Pending Cheques This Month in AED (1,240,000)
+### KPI cards (from CSV-derived metrics)
+- [x] Active Leases
+- [x] Upcoming Ejari Renewals (90 days) with urgent amber styling when high
+- [x] Pending Cheques This Month (AED)
 
-### AI Contract Upload (Simulated)
-- [x] Prominent drag-and-drop PDF upload zone
-- [x] Click-to-browse file picker
-- [x] 3-second loading state: "AI extracting clauses..."
-- [x] Skeleton shimmer during extraction
-- [x] Success state with filename display
+### AI contract upload (simulated)
+- [x] Drag-and-drop PDF upload zone
+- [x] 3-second "AI extracting clauses..." loading state
+- [x] Extracted data panel after upload
 
-### Extracted Lease Data
-- [x] Tenant Name: John Doe
-- [x] Annual Rent: AED 120,000
+### Extracted lease data (demo lease LST-00002)
+- [x] Tenant Name: Ahmed Al Mansoori
+- [x] Annual Rent: AED 211,000
 - [x] Ejari Expiry: Oct 15, 2026
 - [x] Payment Terms: 4 Cheques
-- [x] Empty placeholder state before upload completes
+- [x] Property: Saadiyat Island Towers, Saadiyat Island
 
-### Action Automation
-- [x] "Generate 90-Day Renewal Notice" button (enabled after extraction)
-- [x] Modal with drafted WhatsApp message
-- [x] Modal with drafted email message
-- [x] UAE Ejari / RERA compliance language in templates
-- [x] Copy-to-clipboard for each channel
+### Community context (Track 3)
+- [x] Resident experience score from `sample_communities.csv`
+- [x] Service demand index and optimization opportunity
+- [x] Occupancy rate for demo district
 
-### Design
-- [x] Bento-grid layout on single screen
-- [x] Professional palette: slate grays, crisp whites, deep blues
-- [x] Responsive layout (mobile stack, desktop grid)
-- [x] Geist Sans typography
+### Action automation
+- [x] Generate 90-Day Renewal Notice button
+- [x] Modal with WhatsApp and email drafts
+- [x] Copy-to-clipboard per channel
 
-## Not in MVP (Future)
+## Submission checklist
 
-- [ ] Real PDF parsing and AI clause extraction
-- [ ] Ejari / RERA API integrations
-- [ ] Database and user authentication
+- [ ] Repo link works in incognito: https://github.com/Amrsamiredris/leaselens-ai
+- [ ] README explains how to run the project
+- [ ] Demo URL deployed on Vercel
+- [ ] Track selected: Future Communities
+- [ ] "What we built today" section is specific and honest
+- [ ] Issue submitted at [submissions repo](https://github.com/abu-dhabi-ai-proptech-challenge/submissions/issues/new/choose)
+
+## Not in scope
+
+- [ ] Real PDF parsing / LLM API
+- [ ] Ejari / RERA live API integrations
+- [ ] Database and authentication
 - [ ] Lease Documents and Settings pages
-- [ ] Multi-property portfolio management
-- [ ] Automated WhatsApp / email sending
-
-## Demo Checklist
-
-- [ ] `npm run dev` starts without errors
-- [ ] Sidebar navigation renders on desktop and mobile
-- [ ] Ejari renewal card shows urgent styling
-- [ ] PDF upload triggers 3s loading animation
-- [ ] Extracted data populates after loading
-- [ ] Renewal notice modal opens with both message formats
-- [ ] Copy buttons work in browser

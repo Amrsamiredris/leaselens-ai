@@ -1,0 +1,40 @@
+{
+  "metrics": {
+    "activeLeases": 3558,
+    "upcomingEjariRenewals": 1056,
+    "pendingChequesAed": 12428000
+  },
+  "demoLease": {
+    "listing_id": "LST-00002",
+    "district": "Saadiyat Island",
+    "community": "Saadiyat Island Towers",
+    "listing_type": "rent",
+    "property_type": "townhouse",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "size_sqm": 207,
+    "price_aed": 211000,
+    "price_per_sqm_aed": 1019,
+    "furnished": true,
+    "amenities": "concierge;covered_parking",
+    "latitude": 24.55181,
+    "longitude": 54.43443,
+    "listed_date": "2026-05-12",
+    "status": "let",
+    "agency_type": "developer_direct",
+    "tenant_name": "Ahmed Al Mansoori",
+    "ejari_expiry": "2026-10-15",
+    "ejari_expiry_display": "Oct 15, 2026",
+    "payment_terms": "4 Cheques",
+    "property_label": "Saadiyat Island Towers, Saadiyat Island"
+  },
+  "communityInsight": {
+    "district": "Saadiyat Island",
+    "residentExperienceScore": 92,
+    "serviceDemandIndex": 51,
+    "occupancyRate": 0.81,
+    "optimizationOpportunity": "improve cycle paths",
+    "summary": "High-experience community — prioritize proactive tenancy renewals to maintain occupancy stability."
+  },
+  "dataNotice": "Metrics derived from synthetic starter-kit listings. Ejari and tenant fields are demo extensions."
+}
