@@ -7,6 +7,12 @@ type EjariCountdownProps = {
   ejariExpiryDate: string;
 };
 
+function getRingColor(daysRemaining: number): string {
+  if (daysRemaining > 90) return "var(--green-ok)";
+  if (daysRemaining >= 60) return "var(--amber-warn)";
+  return "var(--red-alert)";
+}
+
 export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
   const status = getEjariCountdownStatus(ejariExpiryDate);
   const circumference = 2 * Math.PI * 54;
@@ -16,19 +22,18 @@ export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
   );
   const strokeDashoffset =
     circumference - (progress / 100) * circumference;
+  const ringColor = getRingColor(status.daysRemaining);
+  const isCritical = status.daysRemaining < 30;
 
   return (
-    <div className="flex flex-col items-center gap-3 rounded-lg border border-border bg-muted/20 p-4">
-      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+    <div className="flex flex-col items-center gap-3 border-b border-token pb-5">
+      <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
         Ejari renewal countdown
       </p>
 
       <div className="relative flex size-32 items-center justify-center">
         <svg
-          className={cn(
-            "size-32 -rotate-90",
-            status.flash && "animate-pulse motion-reduce:animate-none"
-          )}
+          className="size-32 -rotate-90"
           viewBox="0 0 120 120"
           aria-hidden
         >
@@ -37,52 +42,48 @@ export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
             cy="60"
             r="54"
             fill="none"
-            stroke="currentColor"
-            strokeWidth="8"
-            className="text-muted/30"
+            stroke="var(--border)"
+            strokeWidth="4"
           />
           <circle
             cx="60"
             cy="60"
             r="54"
             fill="none"
-            stroke="currentColor"
-            strokeWidth="8"
+            stroke={ringColor}
+            strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             className={cn(
-              status.ringClass,
-              status.pulse && "animate-pulse motion-reduce:animate-none"
+              isCritical && "ll-countdown-pulse motion-reduce:animate-none"
             )}
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-3xl font-bold tabular-nums text-foreground">
+          <span className="font-display text-[2rem] tabular-nums text-white-token">
             {status.daysRemaining}
           </span>
-          <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-            days left
-          </span>
+          <span className="text-[0.72rem] text-slate-token">days left</span>
         </div>
       </div>
 
       <p
         className={cn(
-          "text-center text-sm font-semibold",
-          status.flash || status.daysRemaining < 60
-            ? "text-red-600"
-            : status.pulse
-              ? "text-amber-600"
-              : "text-emerald-600"
+          "text-center text-[0.72rem] font-medium",
+          status.daysRemaining > 90 && "text-green-ok",
+          status.daysRemaining >= 60 &&
+            status.daysRemaining <= 90 &&
+            "text-amber-warn",
+          status.daysRemaining < 60 && "text-red-alert"
         )}
       >
         {status.label}
       </p>
 
-      <p className="text-center text-xs text-muted-foreground">
+      <p className="text-center text-[0.72rem] text-slate-token">
         90-day notice window opened{" "}
-        <span className="font-medium text-foreground">
+        <span className="font-medium text-white-token">
           {status.noticeWindowOpened}
         </span>
       </p>

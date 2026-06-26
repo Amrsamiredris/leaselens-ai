@@ -89,20 +89,18 @@ export function DashboardClient() {
   const leaseData = extraction ?? MOCK_LEASE_EXTRACTION;
 
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col bg-navy">
       <PageHeader
         title="Operations dashboard"
         description={BRAND.subtitle}
         showTrackBadge
       />
 
-      <main className="flex-1 overflow-auto p-4 md:p-6">
+      <main className="flex-1 overflow-auto p-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-6">
-            <p className="font-display text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-              {BRAND.tagline}
-            </p>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            <p className="ll-section-title">{BRAND.tagline}</p>
+            <p className="mt-2 max-w-2xl ll-body">
               Monitor Ejari compliance, extract tenancy contracts with AI, and
               draft renewal notices for Abu Dhabi communities.
             </p>
@@ -119,7 +117,7 @@ export function DashboardClient() {
             onReset={handleReset}
           />
 
-          <p className="mt-8 text-center text-xs text-muted-foreground">
+          <p className="mt-8 text-center text-[0.72rem] text-slate-token">
             {PORTFOLIO.dataNotice}
           </p>
         </div>

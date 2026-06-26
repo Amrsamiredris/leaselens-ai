@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Fraunces } from "next/font/google";
+import { DM_Serif_Display, Inter } from "next/font/google";
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -10,14 +10,16 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ["latin"],
+  weight: ["400"],
   variable: "--font-display",
   display: "swap",
 });
@@ -43,14 +45,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(dmSans.variable, fraunces.variable)}>
-      <body className={cn("min-h-dvh font-sans antialiased", dmSans.className)}>
+    <html lang="en" className={cn(inter.variable, dmSerifDisplay.variable)}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={cn("min-h-dvh bg-navy font-sans antialiased", inter.className)}>
         <TooltipProvider>
-          <SidebarProvider>
+          <SidebarProvider
+            style={
+              {
+                "--sidebar-width": "220px",
+              } as React.CSSProperties
+            }
+          >
             <AppSidebar />
-            <SidebarInset className="bg-transparent">{children}</SidebarInset>
+            <SidebarInset className="bg-navy">{children}</SidebarInset>
           </SidebarProvider>
-          <Toaster position="top-right" richColors closeButton />
+          <Toaster position="top-right" closeButton />
         </TooltipProvider>
       </body>
     </html>

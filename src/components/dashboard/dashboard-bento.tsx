@@ -55,18 +55,16 @@ export function DashboardBento({
   } = useChequeSchedule(extraction, showCheques);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <MetricCards />
 
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
-        <div className="lg:col-span-7 flex flex-col gap-5">
-          <div className="brand-card h-full p-5 md:p-6">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+        <div className="flex flex-col gap-4 lg:col-span-7">
+          <div className="ll-card h-full p-5">
             <div className="mb-4">
-              <h2 className="font-display text-lg font-semibold text-foreground">
-                Contract intelligence
-              </h2>
-              <p className="mt-0.5 text-sm text-muted-foreground">
-                Upload an Ejari tenancy PDF — AI extracts lease terms in seconds
+              <h2 className="ll-card-heading">Contract intelligence</h2>
+              <p className="mt-0.5 ll-body">
+                Upload an Ejari tenancy PDF. AI extracts lease terms in seconds.
               </p>
             </div>
             <UploadZone
@@ -88,7 +86,7 @@ export function DashboardBento({
           )}
         </div>
 
-        <div className="flex flex-col gap-5 lg:col-span-5">
+        <div className="flex flex-col gap-4 lg:col-span-5">
           <ExtractedDataPanel uploadState={uploadState} data={extraction} />
 
           {isDone && (
@@ -103,12 +101,10 @@ export function DashboardBento({
             insight={communityInsight}
           />
 
-          <div className="brand-card p-5">
+          <div className="ll-card p-5">
             <div className="mb-4">
-              <h2 className="font-display text-base font-semibold text-foreground">
-                Renewal automation
-              </h2>
-              <p className="mt-0.5 text-sm text-muted-foreground">
+              <h2 className="ll-card-heading">Renewal automation</h2>
+              <p className="mt-0.5 ll-body">
                 Generate compliant 90-day notices from extracted data
               </p>
             </div>

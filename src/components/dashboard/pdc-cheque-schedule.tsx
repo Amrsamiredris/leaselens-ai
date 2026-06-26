@@ -3,8 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -28,9 +26,9 @@ type PdcChequeScheduleProps = {
 };
 
 const statusStyles: Record<ChequeStatus, string> = {
-  Pending: "bg-amber-100 text-amber-800 border-amber-200",
-  Cleared: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  Bounced: "bg-red-100 text-red-800 border-red-200",
+  Pending: "ll-status-pending",
+  Cleared: "ll-status-cleared",
+  Bounced: "ll-status-bounced",
 };
 
 export function PdcChequeSchedule({
@@ -61,18 +59,16 @@ export function PdcChequeSchedule({
   if (schedule.length === 0) return null;
 
   return (
-    <div className="brand-card flex flex-col p-5">
+    <div className="ll-card flex flex-col p-5">
       <div className="mb-4">
-        <h2 className="font-display text-base font-semibold text-foreground">
-          PDC cheque schedule
-        </h2>
-        <p className="mt-0.5 text-sm text-muted-foreground">
+        <h2 className="ll-card-heading">PDC cheque schedule</h2>
+        <p className="mt-0.5 ll-body">
           Auto-generated from {lease.paymentTerms} · {lease.annualRent}/yr
         </p>
       </div>
 
       <div className="mb-4 flex flex-col gap-2">
-        <Label htmlFor="cheque-offset">
+        <Label htmlFor="cheque-offset" className="text-[0.78rem] text-slate-token">
           First cheque offset (days from contract start)
         </Label>
         <Input
@@ -84,36 +80,55 @@ export function PdcChequeSchedule({
           onChange={(event) =>
             onOffsetChange(Math.max(0, Number(event.target.value) || 0))
           }
-          className="max-w-[200px]"
+          className="ll-input h-10 max-w-[200px] border-token bg-[var(--input-bg)] text-white-token"
         />
       </div>
 
       {hasBounced && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertTriangle />
-          <AlertTitle>Bounced cheque detected</AlertTitle>
-          <AlertDescription>
-            Initiate legal notice within 14 days under UAE Cheques Law.
-          </AlertDescription>
-        </Alert>
+        <div className="mb-4 flex items-start gap-2.5 rounded-lg border border-[var(--bounced-banner-border)] bg-[var(--bounced-banner-bg)] px-4 py-[0.7rem]">
+          <AlertTriangle className="mt-0.5 size-4 shrink-0 text-[var(--bounced-text)]" />
+          <div>
+            <p className="text-[0.8rem] font-medium text-[var(--bounced-text)]">
+              Bounced cheque detected
+            </p>
+            <p className="mt-0.5 text-[0.78rem] text-[var(--bounced-text)]">
+              Initiate legal notice within 14 days under UAE Cheques Law.
+            </p>
+          </div>
+        </div>
       )}
 
-      <div className="overflow-x-auto rounded-lg border border-border">
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Cheque #</TableHead>
-              <TableHead>Due date</TableHead>
-              <TableHead>Amount (AED)</TableHead>
-              <TableHead>Status</TableHead>
+            <TableRow className="border-b border-token hover:bg-transparent">
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+                Cheque #
+              </TableHead>
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+                Due date
+              </TableHead>
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+                Amount (AED)
+              </TableHead>
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+                Status
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {schedule.map((item) => (
-              <TableRow key={item.number}>
-                <TableCell className="font-medium">{item.number}</TableCell>
-                <TableCell>{formatDisplayDate(item.dueDate)}</TableCell>
-                <TableCell className="tabular-nums">
+              <TableRow
+                key={item.number}
+                className="border-b border-token hover:bg-[var(--surface)]"
+              >
+                <TableCell className="font-medium text-white-token">
+                  {item.number}
+                </TableCell>
+                <TableCell className="text-slate-token">
+                  {formatDisplayDate(item.dueDate)}
+                </TableCell>
+                <TableCell className="tabular-nums text-white-token">
                   {item.amountAed.toLocaleString("en-AE")}
                 </TableCell>
                 <TableCell>
@@ -123,12 +138,9 @@ export function PdcChequeSchedule({
                     className="cursor-pointer"
                     aria-label={`Toggle status for cheque ${item.number}, currently ${item.status}`}
                   >
-                    <Badge
-                      variant="outline"
-                      className={cn("border", statusStyles[item.status])}
-                    >
+                    <span className={cn(statusStyles[item.status])}>
                       {item.status}
-                    </Badge>
+                    </span>
                   </button>
                 </TableCell>
               </TableRow>

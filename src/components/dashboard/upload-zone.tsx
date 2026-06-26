@@ -1,10 +1,8 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { CheckCircle2, FileUp, Loader2, RotateCcw, Upload } from "lucide-react";
+import { CheckCircle2, FileUp, RotateCcw, Upload } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import type { UploadState } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -55,22 +53,20 @@ export function UploadZone({
 
   if (uploadState === "done") {
     return (
-      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border-2 border-primary/30 bg-primary/[0.04] p-8 text-center">
-        <CheckCircle2 className="size-12 text-primary" />
-        <p className="mt-4 font-display text-lg font-semibold text-foreground">
+      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border border-gold-token bg-[var(--gold-action-bg)] p-8 text-center">
+        <CheckCircle2 className="size-12 text-green-ok" />
+        <p className="mt-4 text-[0.85rem] font-medium text-white-token">
           Contract processed
         </p>
         {fileName && (
-          <p className="mt-1 text-sm text-muted-foreground">{fileName}</p>
+          <p className="mt-1 text-[0.78rem] text-slate-token">{fileName}</p>
         )}
-        <p className="mt-2 text-sm text-muted-foreground">
-          Lease terms extracted — review the panel on the right
+        <p className="mt-2 text-[0.78rem] text-slate-token">
+          Lease terms extracted. Review the panel on the right.
         </p>
-        <Button
+        <button
           type="button"
-          variant="outline"
-          size="sm"
-          className="mt-6"
+          className="ll-action-btn mt-6 w-auto px-5"
           onClick={() => {
             if (inputRef.current) inputRef.current.value = "";
             onReset();
@@ -78,7 +74,7 @@ export function UploadZone({
         >
           <RotateCcw className="size-4" />
           Upload another contract
-        </Button>
+        </button>
         <input
           ref={inputRef}
           type="file"
@@ -107,9 +103,9 @@ export function UploadZone({
       }}
       onKeyDown={onKeyDown}
       className={cn(
-        "flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-all duration-200 motion-reduce:transition-none",
-        "border-border bg-muted/30 hover:border-primary/50 hover:bg-primary/[0.03]",
-        isDragging && "border-primary bg-primary/[0.06] scale-[1.01]",
+        "flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-xl border-[1.5px] border-dashed p-8 text-center transition-[color,border-color,background] duration-150 ease-in-out motion-reduce:transition-none",
+        "border-[rgba(201,168,76,0.3)] bg-[var(--gold-subtle-bg)] hover:border-[rgba(201,168,76,0.45)] hover:bg-[rgba(201,168,76,0.05)]",
+        isDragging && "border-[rgba(201,168,76,0.55)] bg-[rgba(201,168,76,0.06)]",
         uploadState === "loading" && "cursor-wait"
       )}
     >
@@ -123,30 +119,32 @@ export function UploadZone({
 
       {uploadState === "loading" ? (
         <div className="flex w-full max-w-sm flex-col items-center gap-4">
-          <Loader2 className="size-10 animate-spin text-primary" />
-          <p className="font-medium text-foreground">AI extracting clauses…</p>
-          <p className="text-xs text-muted-foreground">
+          <div className="flex items-center gap-2.5">
+            <span className="ll-pulse-dot" aria-hidden />
+            <p className="text-[0.85rem] font-medium text-gold-light">
+              AI extracting clauses…
+            </p>
+          </div>
+          <p className="text-[0.78rem] text-slate-token">
             Parsing tenant, rent, Ejari expiry, and payment terms
           </p>
           <div className="flex w-full flex-col gap-2">
-            <Skeleton className="h-2.5 w-full rounded-full" />
-            <Skeleton className="h-2.5 w-4/5 rounded-full" />
-            <Skeleton className="h-2.5 w-3/5 rounded-full" />
+            <div className="h-2.5 w-full rounded-full ll-shimmer" />
+            <div className="h-2.5 w-4/5 rounded-full ll-shimmer" />
+            <div className="h-2.5 w-3/5 rounded-full ll-shimmer" />
           </div>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3">
-          <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/20">
-            <Upload className="size-7" />
-          </div>
-          <p className="font-display text-lg font-semibold text-foreground">
+          <Upload className="size-14 text-gold-light" strokeWidth={1.25} />
+          <p className="text-[0.85rem] font-medium text-white-token">
             Upload tenancy contract
           </p>
-          <p className="max-w-xs text-sm text-muted-foreground">
+          <p className="max-w-xs text-[0.78rem] text-slate-token">
             Drag and drop your Ejari PDF here, or click to browse
           </p>
-          <div className="mt-2 flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
-            <FileUp className="size-3.5" />
+          <div className="mt-2 flex items-center gap-2 text-[0.72rem] text-slate-token">
+            <FileUp className="size-3.5 text-gold-token" />
             PDF · max 10 MB
           </div>
         </div>
