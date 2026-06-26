@@ -4,7 +4,7 @@
 Track 3: Future Communities · Abu Dhabi AI PropTech Challenge · Hub71, June 2026
 
 ## Live Demo
-[YOUR VERCEL URL HERE]
+https://leaselens-ai-sand.vercel.app
 
 ## What it does
 Property managers in Abu Dhabi track hundreds of tenancies manually. Missed Ejari 
