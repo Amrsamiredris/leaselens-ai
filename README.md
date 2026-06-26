@@ -1,94 +1,68 @@
 # LeaseLens AI
+**Clarity for every lease — Intelligence layer for Abu Dhabi communities**
 
-**Abu Dhabi AI PropTech Challenge — Track 3: Future Communities**
+Track 3: Future Communities · Abu Dhabi AI PropTech Challenge · Hub71, June 2026
 
-LeaseLens AI is a B2B property management dashboard that automates UAE tenancy compliance, tracks registration renewals, and connects lease operations to community health data from the official hackathon datasets.
+## Live Demo
+[YOUR VERCEL URL HERE]
 
-Built for the [Abu Dhabi AI PropTech Challenge](https://challenge.evoost.ai) at Hub71 (Cursor x eVoost AI).
+## What it does
+Property managers in Abu Dhabi track hundreds of tenancies manually. Missed Ejari 
+renewals create compliance risk. Rent increases get miscalculated under RERA Decree 43. 
+PDF review doesn't scale.
 
-## Hackathon data
+LeaseLens AI connects lease compliance operations to community intelligence:
+1. Upload any tenancy PDF → Claude extracts all key fields in under 10 seconds
+2. RERA Decree 43 calculator computes the legal rent increase cap vs district market rates
+3. Post-dated cheque schedule auto-generates from payment terms
+4. Bilingual EN/AR 90-day renewal notice ready to send via WhatsApp or email
+5. Community insight card joins the lease's district to population, occupancy, and 
+   mobility metrics from the starter-kit dataset
 
-Metrics and demo lease data are derived from the [starter-kit](https://github.com/abu-dhabi-ai-proptech-challenge/starter-kit) synthetic CSVs:
-
-- `data/sample_listings.csv` — rent portfolio (joined for KPIs)
-- `data/sample_communities.csv` — community context by district
-- `data/districts.csv` — district reference
-
-Ejari expiry, tenant name, and payment terms on the demo lease are **synthetic extensions** for the upload demo path.
-
-> **Synthetic data notice:** All CSV values are invented for the challenge. Do not cite as real Abu Dhabi market data.
-
-## Quick start
-
-```bash
+## Run locally
+git clone https://github.com/Amrsamiredris/leaselens-ai
+cd leaselens-ai
 npm install
 npm run dev
-```
+# Open http://localhost:3000
+# Click "Load demo data" — all features work without an API key
 
-Open [http://localhost:3000](http://localhost:3000).
+# For live PDF extraction:
+cp .env.example .env.local
+# Add your ANTHROPIC_API_KEY to .env.local
 
-The `prebuild` script regenerates `src/data/lease-portfolio.json` from CSVs automatically on `npm run build`.
+## What the AI does
+Claude Sonnet 4.6 receives the raw PDF as a base64 document via the Anthropic Messages API.  
+It extracts: tenant name, annual rent AED, Ejari expiry date, payment terms, landlord name, 
+property address, contract start date, and special clauses — returning strict JSON.  
+Without AI: 15–20 min per PDF manually. With AI: under 10 seconds.
 
-## Demo flow (3 minutes)
+## Built today (hackathon scope)
+- Claude PDF extraction via `/api/extract-lease` (Anthropic Messages API)
+- RERA Decree 43 calculator with per-district market rates derived from 
+  sample_transactions.csv (5,000 transactions, median rent per district)
+- PDC cheque schedule generator with UAE Cheques Law bounce warning
+- Bilingual EN/AR renewal notice generator (WhatsApp + email)
+- Community insight card joining lease district to sample_communities.csv
+- District profiles (infrastructure score, yield, area type) from districts.csv
+- Build-time data pipeline: CSV → JSON via scripts/build-lease-data.mjs
 
-See [docs/demo-script.md](./docs/demo-script.md) for the full judge walkthrough.
+## Data sources
+All from the official hackathon starter kit:  
+https://huggingface.co/datasets/eVoost/abu-dhabi-ai-proptech-challenge
 
-1. Review KPI cards (active leases, renewals in 90 days, pending cheques) — computed from 3,500+ rent listings.
-2. Upload any PDF to the contract zone.
-3. Claude extracts lease fields via `/api/extract-lease` (falls back to demo data if no API key).
-4. Review extracted lease data, **Ejari countdown ring**, and special clauses.
-5. Adjust **Legal Rent Increase Calculator** (RERA Decree 43 bands) and note max renewal rent.
-6. Review auto-generated **PDC cheque schedule** — toggle cheque status to demo bounced-cheque warning.
-7. See **Community Context** card joined from `sample_communities.csv`.
-8. Click **Generate 90-Day Renewal Notice** — switch WhatsApp / Email tabs, copy or download `.txt`.
+| File | Rows | Used for |
+|---|---|---|
+| sample_listings.csv | 6,000 | Portfolio KPIs |
+| sample_communities.csv | 90 | Community insight card |
+| sample_transactions.csv | 5,000 | District market rates for RERA calculator |
+| districts.csv | 20 | District profiles, infrastructure scores |
 
-### Environment variables
+## Beyond the demo
+Replace synthetic data with:
+- DMT/Ejari API → real registration status
+- Abu Dhabi Smart Rental Index → live market rates
+- Real tenancy PDFs → extraction prompt is production-ready
 
-Add to `.env.local` for real AI extraction:
-
-```bash
-ANTHROPIC_API_KEY=sk-ant-...
-```
-
-## Tech stack
-
-- Next.js 14 (App Router) + TypeScript
-- Tailwind CSS + shadcn/ui
-- Lucide React icons
-- Hackathon CSVs preprocessed by `scripts/build-lease-data.mjs`
-
-## Deploy
-
-```bash
-npm run build
-npx vercel --prod
-```
-
-Or connect [github.com/Amrsamiredris/leaselens-ai](https://github.com/Amrsamiredris/leaselens-ai) in the [Vercel dashboard](https://vercel.com) and deploy from `main`.
-
-## Submit to the hackathon
-
-1. Ensure the public repo and deployed demo URL work in an incognito window.
-2. Open the [Project Submission issue form](https://github.com/abu-dhabi-ai-proptech-challenge/submissions/issues/new/choose).
-3. Select track: **Future Communities**.
-4. Include repo URL, Vercel demo URL, and what you built today.
-
-Full guide: [starter-kit submission guide](https://github.com/abu-dhabi-ai-proptech-challenge/starter-kit/blob/main/docs/submission-guide.md).
-
-## Links
-
-- Challenge website: https://challenge.evoost.ai
-- Starter kit: https://github.com/abu-dhabi-ai-proptech-challenge/starter-kit
-- Discord: https://discord.gg/jy3QDxQ3jK
-- Architecture: [docs/architecture.md](./docs/architecture.md)
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Regenerate lease data + production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-
-See [FEATURES.md](./FEATURES.md) for the full feature checklist.
+## Stack
+Next.js 14 · TypeScript · Tailwind CSS · shadcn/ui · Anthropic Claude Sonnet 4.6 · Vercel

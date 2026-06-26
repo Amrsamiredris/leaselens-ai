@@ -19,9 +19,9 @@ const settingsSections = [
     icon: Sparkles,
     title: "AI extraction",
     items: [
-      "POST /api/extract — accepts PDF tenancy contracts",
+      "POST /api/extract-lease — accepts PDF tenancy contracts",
       "Demo mode: returns LST-00002 sample extraction",
-      "Set OPENAI_API_KEY in .env.local for production wiring",
+      "Set ANTHROPIC_API_KEY in .env.local for production wiring",
     ],
   },
   {

@@ -12,44 +12,33 @@ export const PORTFOLIO: LeasePortfolioData = portfolioData as LeasePortfolioData
 
 export const DASHBOARD_METRICS = PORTFOLIO.metrics;
 
-export function leaseToExtractionRaw(): LeaseExtractionRaw {
-  const lease = PORTFOLIO.demoLease;
-  return {
-    tenantName: lease.tenant_name,
-    annualRentAED: lease.price_aed,
-    ejariExpiryDate: lease.ejari_expiry,
-    paymentTerms: lease.payment_terms,
-    landlordName: "LeaseLens Property Management LLC",
-    propertyAddress: lease.property_label,
-    districtName: lease.district,
-    contractStartDate: "2025-10-15",
-    specialClauses: [
-      "No subletting without written landlord consent",
-      "24-hour notice required for property inspections",
-      "Ejari registration must remain valid throughout tenancy",
-    ],
-  };
-}
-
-export function leaseToExtraction(): LeaseExtraction {
-  return normalizeExtraction(leaseToExtractionRaw());
-}
-
-export const MOCK_LEASE_EXTRACTION = leaseToExtraction();
-
-/** Curated demo lease for one-click dashboard walkthrough */
+/** Single canonical demo lease — Load demo, API fallback, and portfolio walkthrough */
 export const DEMO_DASHBOARD_LEASE_RAW: LeaseExtractionRaw = {
   tenantName: "Mohammed Al Rashidi",
-  annualRentAED: 95_000,
-  ejariExpiryDate: "2026-09-28",
-  paymentTerms: "2 cheques",
+  annualRentAED: 211_000,
+  ejariExpiryDate: "2026-10-15",
+  paymentTerms: "4 Cheques",
   landlordName: "Future Communities Property Management",
-  propertyAddress: "Marina Heights Tower, Apt 1204, Abu Dhabi",
-  contractStartDate: "2025-09-28",
-  specialClauses: [],
+  propertyAddress: "Marina Heights, Saadiyat Island",
+  districtName: "Saadiyat Island",
+  contractStartDate: "2025-10-15",
+  specialClauses: [
+    "No subletting without written landlord consent",
+    "24-hour notice required for property inspections",
+    "Ejari registration must remain valid throughout tenancy",
+  ],
 };
 
 export const DEMO_DASHBOARD_LEASE = normalizeExtraction(DEMO_DASHBOARD_LEASE_RAW);
+export const MOCK_LEASE_EXTRACTION = DEMO_DASHBOARD_LEASE;
+
+export function leaseToExtractionRaw(): LeaseExtractionRaw {
+  return { ...DEMO_DASHBOARD_LEASE_RAW };
+}
+
+export function leaseToExtraction(): LeaseExtraction {
+  return DEMO_DASHBOARD_LEASE;
+}
 
 export type NoticeContext = {
   lease: LeaseExtraction;

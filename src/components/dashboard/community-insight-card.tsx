@@ -1,18 +1,23 @@
 import { MapPin, Sparkles, Users } from "lucide-react";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { PORTFOLIO } from "@/lib/mock-data";
-import type { CommunityInsight, UploadState } from "@/lib/types";
+import type { CommunityInsight } from "@/lib/types";
 
 type CommunityInsightCardProps = {
-  uploadState: UploadState;
-  insight: CommunityInsight;
+  insight: CommunityInsight | null;
+  titleTooltip?: string;
 };
 
 export function CommunityInsightCard({
-  uploadState,
   insight,
+  titleTooltip,
 }: CommunityInsightCardProps) {
-  if (uploadState !== "done") {
+  if (insight === null) {
     return null;
   }
 
@@ -32,7 +37,20 @@ export function CommunityInsightCard({
             className="text-[0.95rem] font-semibold"
             style={{ color: "var(--text-primary)" }}
           >
-            Community context
+            {titleTooltip ? (
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <span className="cursor-default underline decoration-dotted decoration-[var(--text-muted)] underline-offset-4">
+                      Community context
+                    </span>
+                  }
+                />
+                <TooltipContent className="max-w-xs">{titleTooltip}</TooltipContent>
+              </Tooltip>
+            ) : (
+              "Community context"
+            )}
           </h2>
           <p className="text-[0.72rem]" style={{ color: "var(--text-muted)" }}>
             Track 3 · joined on district from starter-kit data

@@ -19,22 +19,22 @@ import type {
   UploadState,
 } from "@/lib/types";
 
+const SAADIYAT_MARKET_RATE =
+  PORTFOLIO.marketRatesByDistrict["Saadiyat Island"] ?? 199_000;
+
 const DEFAULT_RERA = calculateReraIncrease(
   MOCK_LEASE_EXTRACTION.annualRentAED,
-  180_000
+  SAADIYAT_MARKET_RATE
 );
 
-const DEMO_RERA = calculateReraIncrease(
-  DEMO_DASHBOARD_LEASE.annualRentAED,
-  100_000
-);
+const DEMO_RERA = DEFAULT_RERA;
 
 export function DashboardClient() {
   const [uploadState, setUploadState] = useState<UploadState>("idle");
   const [fileName, setFileName] = useState<string | null>(null);
   const [extraction, setExtraction] = useState<LeaseExtraction | null>(null);
   const [communityInsight, setCommunityInsight] = useState<CommunityInsight | null>(
-    null
+    PORTFOLIO.communityInsight
   );
   const [reraResult, setReraResult] = useState<ReraCalculation>(DEFAULT_RERA);
 
@@ -46,7 +46,6 @@ export function DashboardClient() {
     setFileName(file.name);
     setUploadState("loading");
     setExtraction(null);
-    setCommunityInsight(null);
 
     try {
       const pdfBase64 = await fileToBase64(file);
@@ -65,8 +64,14 @@ export function DashboardClient() {
 
       setExtraction(data.extraction);
       setCommunityInsight(PORTFOLIO.communityInsight);
+      const district =
+        data.extraction.districtName ??
+        data.extraction.propertyAddress.split(",").pop()?.trim();
+      const marketRate =
+        (district ? PORTFOLIO.marketRatesByDistrict[district] : undefined) ??
+        SAADIYAT_MARKET_RATE;
       setReraResult(
-        calculateReraIncrease(data.extraction.annualRentAED, 180_000)
+        calculateReraIncrease(data.extraction.annualRentAED, marketRate)
       );
       setUploadState("done");
       toast.success("Contract processed", {
@@ -102,7 +107,7 @@ export function DashboardClient() {
     setUploadState("idle");
     setFileName(null);
     setExtraction(null);
-    setCommunityInsight(null);
+    setCommunityInsight(PORTFOLIO.communityInsight);
     setReraResult(DEFAULT_RERA);
   }, []);
 
@@ -133,7 +138,7 @@ export function DashboardClient() {
         uploadState={uploadState}
         fileName={fileName}
         extraction={leaseData}
-        communityInsight={communityInsight ?? PORTFOLIO.communityInsight}
+        communityInsight={communityInsight}
         reraResult={reraResult}
         onReraChange={handleReraChange}
         onUpload={handleUpload}

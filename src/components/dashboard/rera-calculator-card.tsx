@@ -13,6 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { PORTFOLIO } from "@/lib/mock-data";
 import {
   calculateReraIncrease,
@@ -33,6 +38,7 @@ function districtFromLease(lease: LeaseExtraction): string | undefined {
 type ReraCalculatorCardProps = {
   lease: LeaseExtraction;
   onCalculationChange: (result: ReraCalculation) => void;
+  titleTooltip?: string;
 };
 
 const badgeVariantStyles: Record<ReraCalculation["badgeVariant"], string> = {
@@ -45,6 +51,7 @@ const badgeVariantStyles: Record<ReraCalculation["badgeVariant"], string> = {
 export function ReraCalculatorCard({
   lease,
   onCalculationChange,
+  titleTooltip,
 }: ReraCalculatorCardProps) {
   const [currentRent, setCurrentRent] = useState(lease.annualRentAED);
   const [marketRate, setMarketRate] = useState(DUBAI_ZONES[0].avgRentAed);
@@ -90,7 +97,20 @@ export function ReraCalculatorCard({
             className="text-[0.95rem] font-semibold"
             style={{ color: "var(--text-primary)" }}
           >
-            Legal rent increase calculator
+            {titleTooltip ? (
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <span className="cursor-default underline decoration-dotted decoration-[var(--text-muted)] underline-offset-4">
+                      Legal rent increase calculator
+                    </span>
+                  }
+                />
+                <TooltipContent className="max-w-xs">{titleTooltip}</TooltipContent>
+              </Tooltip>
+            ) : (
+              "Legal rent increase calculator"
+            )}
           </h2>
           <p
             className="mt-1 text-[0.82rem]"
@@ -181,11 +201,22 @@ export function ReraCalculatorCard({
                 {result.maxIncreasePercent}%
               </p>
             </div>
-            <span className={cn(badgeVariantStyles[result.badgeVariant])}>
+            <span
+              className={cn(
+                badgeVariantStyles[result.badgeVariant],
+                "rounded-lg px-4 py-2 text-base font-semibold"
+              )}
+            >
               {result.maxIncreasePercent === 0
                 ? "No increase permitted"
                 : `Up to ${result.maxIncreasePercent}%`}
             </span>
+          </div>
+          <div className="mt-2 h-1 w-full rounded bg-[#1a2f4a]">
+            <div
+              className="h-1 rounded bg-[#f0c55a] transition-all"
+              style={{ width: `${result.percentBelowMarket}%` }}
+            />
           </div>
 
           <div

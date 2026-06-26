@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { CheckCircle2, FileUp, RotateCcw, Upload } from "lucide-react";
+import { CheckCircle2, FileUp, RotateCcw } from "lucide-react";
 
 import type { UploadState } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -125,9 +125,9 @@ export function UploadZone({
         }}
         onKeyDown={onKeyDown}
         className={cn(
-          "upload-zone",
-          isDragging && "border-[var(--gold)]",
-          uploadState === "loading" && "cursor-wait"
+          "upload-zone border border-dashed border-[#f0c55a]/30 transition-colors hover:border-[#f0c55a]/70",
+          isDragging && "border-[#f0c55a]",
+          uploadState === "loading" && "relative cursor-wait overflow-hidden"
         )}
       >
         <input
@@ -139,31 +139,33 @@ export function UploadZone({
         />
 
         {uploadState === "loading" ? (
-          <div className="flex flex-col items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="ll-pulse-dot" style={{ background: "var(--gold-text)" }} aria-hidden />
-              <p
-                className="text-[0.92rem] font-medium"
-                style={{ color: "var(--gold-text)" }}
-              >
-                AI extracting clauses…
+          <>
+            <div
+              className="pointer-events-none absolute inset-0 animate-pulse bg-[#f0c55a]/10"
+              aria-hidden
+            />
+            <div className="relative flex flex-col items-center gap-3">
+              <div className="flex items-center gap-2">
+                <span className="ll-pulse-dot" style={{ background: "var(--gold-text)" }} aria-hidden />
+                <p
+                  className="text-[0.92rem] font-medium"
+                  style={{ color: "var(--gold-text)" }}
+                >
+                  AI extracting clauses…
+                </p>
+              </div>
+              <p className="text-[0.8rem]" style={{ color: "var(--text-secondary)" }}>
+                Parsing tenant, rent, Ejari expiry, and payment terms
               </p>
+              <div className="flex w-full max-w-xs flex-col gap-2">
+                <div className="h-2 w-full animate-pulse rounded-full bg-[#f0c55a]/10" />
+                <div className="h-2 w-4/5 animate-pulse rounded-full bg-[#f0c55a]/10" />
+              </div>
             </div>
-            <p className="text-[0.8rem]" style={{ color: "var(--text-secondary)" }}>
-              Parsing tenant, rent, Ejari expiry, and payment terms
-            </p>
-            <div className="flex w-full max-w-xs flex-col gap-2">
-              <div className="h-2 w-full rounded-full ll-shimmer" />
-              <div className="h-2 w-4/5 rounded-full ll-shimmer" />
-            </div>
-          </div>
+          </>
         ) : (
           <>
-            <Upload
-              className="mx-auto mb-3 size-9"
-              style={{ color: "var(--gold-text)" }}
-              strokeWidth={1.5}
-            />
+            <FileUp className="mx-auto mb-3 size-10 text-[#f0c55a]" strokeWidth={1.5} />
             <p
               className="text-[0.92rem] font-medium"
               style={{ color: "var(--text-primary)" }}

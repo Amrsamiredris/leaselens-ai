@@ -13,6 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { buildChequeSchedule, formatDisplayDate } from "@/lib/lease-utils";
 import type { ChequeScheduleItem, ChequeStatus, LeaseExtraction } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -23,12 +28,13 @@ type PdcChequeScheduleProps = {
   onScheduleChange: (items: ChequeScheduleItem[]) => void;
   firstChequeOffsetDays: number;
   onOffsetChange: (days: number) => void;
+  titleTooltip?: string;
 };
 
 const statusStyles: Record<ChequeStatus, string> = {
-  Pending: "ll-status-pending",
-  Cleared: "ll-status-cleared",
-  Bounced: "ll-status-bounced",
+  Pending: "ll-status-pending border-0 bg-[#f0a830]/15 text-[#f0a830]",
+  Cleared: "ll-status-cleared border-0 bg-[#3dc48a]/15 text-[#3dc48a]",
+  Bounced: "ll-status-bounced border-0 bg-[#e05252]/15 text-[#e05252]",
 };
 
 export function PdcChequeSchedule({
@@ -37,6 +43,7 @@ export function PdcChequeSchedule({
   onScheduleChange,
   firstChequeOffsetDays,
   onOffsetChange,
+  titleTooltip,
 }: PdcChequeScheduleProps) {
   const hasBounced = schedule.some((item) => item.status === "Bounced");
 
@@ -65,7 +72,20 @@ export function PdcChequeSchedule({
           className="text-[0.95rem] font-semibold"
           style={{ color: "var(--text-primary)" }}
         >
-          PDC cheque schedule
+          {titleTooltip ? (
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <span className="cursor-default underline decoration-dotted decoration-[var(--text-muted)] underline-offset-4">
+                    PDC cheque schedule
+                  </span>
+                }
+              />
+              <TooltipContent className="max-w-xs">{titleTooltip}</TooltipContent>
+            </Tooltip>
+          ) : (
+            "PDC cheque schedule"
+          )}
         </h2>
         <p className="mt-1 text-[0.82rem]" style={{ color: "var(--text-secondary)" }}>
           Auto-generated from {lease.paymentTerms} · {lease.annualRent}/yr
@@ -111,7 +131,10 @@ export function PdcChequeSchedule({
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent" style={{ borderColor: "var(--border-default)" }}>
+            <TableRow
+              className="bg-[#070e1c] hover:bg-[#070e1c]"
+              style={{ borderColor: "var(--border-default)" }}
+            >
               <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em]" style={{ color: "var(--text-muted)" }}>
                 Cheque #
               </TableHead>
@@ -149,7 +172,15 @@ export function PdcChequeSchedule({
                     className="cursor-pointer"
                     aria-label={`Toggle status for cheque ${item.number}, currently ${item.status}`}
                   >
-                    <span className={cn(statusStyles[item.status])}>
+                    <span
+                      className={cn(
+                        statusStyles[item.status],
+                        item.status === "Bounced" && "inline-flex items-center gap-1.5"
+                      )}
+                    >
+                      {item.status === "Bounced" && (
+                        <span className="ll-pulse-dot" aria-hidden />
+                      )}
                       {item.status}
                     </span>
                   </button>

@@ -12,6 +12,11 @@ import {
 import { RenewalNoticeDialog } from "@/components/dashboard/renewal-notice-dialog";
 import { ReraCalculatorCard } from "@/components/dashboard/rera-calculator-card";
 import { UploadZone } from "@/components/dashboard/upload-zone";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { parseChequeCount } from "@/lib/lease-utils";
 import type {
   CommunityInsight,
@@ -24,7 +29,7 @@ type DashboardBentoProps = {
   uploadState: UploadState;
   fileName: string | null;
   extraction: LeaseExtraction;
-  communityInsight: CommunityInsight;
+  communityInsight: CommunityInsight | null;
   reraResult: ReraCalculation;
   onReraChange: (result: ReraCalculation) => void;
   onUpload: (file: File) => void;
@@ -32,6 +37,31 @@ type DashboardBentoProps = {
   onLoadDemo: () => void;
   onClear: () => void;
 };
+
+function CardTitleTooltip({
+  title,
+  tooltip,
+  className,
+  style,
+}: {
+  title: string;
+  tooltip: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <h2 className={className} style={style}>
+            {title}
+          </h2>
+        }
+      />
+      <TooltipContent className="max-w-xs">{tooltip}</TooltipContent>
+    </Tooltip>
+  );
+}
 
 export function DashboardBento({
   uploadState,
@@ -60,17 +90,35 @@ export function DashboardBento({
 
   return (
     <>
+      <div className="mb-2">
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <p
+                className="w-fit cursor-default text-[0.68rem] font-medium uppercase tracking-[0.1em]"
+                style={{ color: "var(--text-muted)" }}
+              >
+                Portfolio KPIs
+              </p>
+            }
+          />
+          <TooltipContent className="max-w-xs">
+            Portfolio KPIs computed from 6,000 Abu Dhabi listings and 5,000
+            transactions in the hackathon starter-kit dataset
+          </TooltipContent>
+        </Tooltip>
+      </div>
       <MetricCards />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[55fr_45fr]">
         <div className="flex flex-col gap-4">
           <div className="upload-card">
-            <h2
+            <CardTitleTooltip
+              title="AI lease extraction"
+              tooltip="Drop any tenancy PDF — Claude extracts key fields in under 10 seconds"
               className="text-[1rem] font-semibold"
               style={{ color: "var(--text-primary)" }}
-            >
-              AI lease extraction
-            </h2>
+            />
             <p
               className="mt-1 text-[0.82rem]"
               style={{ color: "var(--text-secondary)" }}
@@ -93,6 +141,7 @@ export function DashboardBento({
               onScheduleChange={setSchedule}
               firstChequeOffsetDays={firstChequeOffsetDays}
               onOffsetChange={setFirstChequeOffsetDays}
+              titleTooltip="Post-dated cheque timeline auto-generated from payment terms"
             />
           )}
         </div>
@@ -109,12 +158,13 @@ export function DashboardBento({
             <ReraCalculatorCard
               lease={extraction}
               onCalculationChange={onReraChange}
+              titleTooltip="Max legal rent increase under RERA Decree No. 43 of 2013, benchmarked against district market rates"
             />
           )}
 
           <CommunityInsightCard
-            uploadState={uploadState}
             insight={communityInsight}
+            titleTooltip="District metrics joined from the starter-kit communities dataset"
           />
 
           <div className="extracted-card p-[1.4rem_1.6rem]">

@@ -1,5 +1,9 @@
 "use client";
 
+import { AlertTriangle } from "lucide-react";
+
+import { EjariCountdown } from "@/components/dashboard/ejari-countdown";
+import { formatDisplayDate } from "@/lib/lease-utils";
 import { formatAed } from "@/lib/rera";
 import type { LeaseExtraction, ReraCalculation, UploadState } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -19,6 +23,30 @@ function getDaysRemaining(ejariExpiryDate: string): number {
   return Math.ceil((expiry.getTime() - today.getTime()) / msPerDay);
 }
 
+type FieldRowProps = {
+  label: string;
+  value: React.ReactNode;
+  valueClassName?: string;
+};
+
+function FieldRow({ label, value, valueClassName }: FieldRowProps) {
+  return (
+    <div className="grid grid-cols-[160px_1fr] items-center gap-2 py-[0.55rem]">
+      <span className="text-[0.8rem]" style={{ color: "var(--text-secondary)" }}>
+        {label}
+      </span>
+      <span
+        className={cn(
+          "text-[0.8rem] font-medium tabular-nums",
+          valueClassName ?? "text-[var(--text-primary)]"
+        )}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
 export function ExtractedDataPanel({
   uploadState,
   data,
@@ -29,31 +57,6 @@ export function ExtractedDataPanel({
   const daysRemaining = getDaysRemaining(data.ejariExpiryDate);
   const expiryUrgent = daysRemaining < 90;
   const daysWarning = daysRemaining >= 60 && daysRemaining < 90;
-
-  const rows = [
-    { label: "Tenant", value: data.tenantName },
-    { label: "Annual rent", value: data.annualRent },
-    {
-      label: "Ejari expiry",
-      value: data.ejariExpiry,
-      valueStyle: expiryUrgent ? "var(--red)" : "var(--text-primary)",
-    },
-    {
-      label: "Days remaining",
-      value: `${daysRemaining} days`,
-      valueStyle: daysWarning
-        ? "var(--amber-text)"
-        : expiryUrgent
-          ? "var(--red)"
-          : "var(--text-primary)",
-    },
-    { label: "Payment terms", value: data.paymentTerms },
-    {
-      label: "Max legal increase",
-      value: `+${rera.maxIncreasePercent}% → ${formatAed(rera.newMaxRent)}`,
-      valueStyle: "var(--green-text)",
-    },
-  ];
 
   return (
     <div className="extracted-card mb-4 p-[1.4rem_1.6rem]">
@@ -92,26 +95,52 @@ export function ExtractedDataPanel({
         </div>
       ) : (
         <div className="fade-in-rows mt-4">
-          {rows.map((row) => (
-            <div
-              key={row.label}
-              className="flex items-center justify-between gap-4 border-b py-[0.55rem] last:border-b-0"
-              style={{ borderColor: "var(--border-default)" }}
-            >
-              <span
-                className="text-[0.8rem]"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {row.label}
-              </span>
-              <span
-                className={cn("text-right text-[0.8rem] font-medium tabular-nums")}
-                style={{ color: row.valueStyle ?? "var(--text-primary)" }}
-              >
-                {row.value}
-              </span>
-            </div>
-          ))}
+          <EjariCountdown ejariExpiryDate={data.ejariExpiryDate} />
+
+          <FieldRow label="Tenant" value={data.tenantName} />
+          <FieldRow label="Landlord" value={data.landlordName} />
+          <FieldRow label="Property address" value={data.propertyAddress} />
+
+          <hr className="my-2 border-[#1a2f4a]" />
+
+          <FieldRow label="Annual rent" value={data.annualRent} />
+          <FieldRow label="Payment terms" value={data.paymentTerms} />
+          <FieldRow
+            label="Max legal increase"
+            value={`+${rera.maxIncreasePercent}% → ${formatAed(rera.newMaxRent)}`}
+            valueClassName="text-[var(--green-text)]"
+          />
+
+          <hr className="my-2 border-[#1a2f4a]" />
+
+          <FieldRow
+            label="Ejari expiry"
+            value={
+              expiryUrgent ? (
+                <span className="inline-flex items-center text-[#f0a830]">
+                  <AlertTriangle className="mr-1 size-3 shrink-0" aria-hidden />
+                  {data.ejariExpiry}
+                </span>
+              ) : (
+                data.ejariExpiry
+              )
+            }
+          />
+          <FieldRow
+            label="Days remaining"
+            value={`${daysRemaining} days`}
+            valueClassName={
+              daysWarning
+                ? "text-[var(--amber-text)]"
+                : expiryUrgent
+                  ? "text-[var(--red)]"
+                  : undefined
+            }
+          />
+          <FieldRow
+            label="Contract start"
+            value={formatDisplayDate(data.contractStartDate)}
+          />
         </div>
       )}
     </div>

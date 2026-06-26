@@ -55,7 +55,12 @@ export function AppSidebar() {
               key={item.title}
               href={item.href}
               aria-current={isActive ? "page" : undefined}
-              className={cn("nav-item", isActive && "active")}
+              className={cn(
+                "nav-item",
+                isActive
+                  ? "active border-l-2 border-[#f0c55a] border-r-transparent bg-[#f0c55a]/10 font-medium text-[#f0c55a]"
+                  : "text-[#8fa5c0] hover:bg-white/5 hover:text-[#edf2fa]"
+              )}
             >
               <Icon className="nav-icon" />
               <span>{item.title}</span>
@@ -63,6 +68,12 @@ export function AppSidebar() {
           );
         })}
       </nav>
+
+      <div className="mx-4 mb-4">
+        <span className="inline-block rounded bg-[#f0a830]/15 px-2 py-1 text-[10px] uppercase tracking-widest text-[#f0a830]">
+          TRACK 3 · FUTURE COMMUNITIES
+        </span>
+      </div>
 
       <div className="mt-auto border-t border-[var(--border-default)] px-[1.2rem] py-4">
         <p

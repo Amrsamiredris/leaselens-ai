@@ -1,11 +1,16 @@
 import type { DubaiZone, ReraCalculation } from "@/lib/types";
 
 export const DUBAI_ZONES: DubaiZone[] = [
-  { id: "downtown", label: "Downtown", avgRentAed: 180_000 },
-  { id: "marina", label: "Marina", avgRentAed: 145_000 },
-  { id: "jvc", label: "JVC", avgRentAed: 75_000 },
-  { id: "al-barsha", label: "Al Barsha", avgRentAed: 95_000 },
-  { id: "deira", label: "Deira", avgRentAed: 55_000 },
+  { id: "saadiyat-island", label: "Saadiyat Island", avgRentAed: 199_000 },
+  { id: "al-reem-island", label: "Al Reem Island", avgRentAed: 172_000 },
+  { id: "yas-island", label: "Yas Island", avgRentAed: 157_000 },
+  { id: "al-khalidiyah", label: "Al Khalidiyah", avgRentAed: 149_000 },
+  { id: "corniche", label: "Corniche", avgRentAed: 175_000 },
+  { id: "masdar-city", label: "Masdar City", avgRentAed: 139_000 },
+  { id: "al-bateen", label: "Al Bateen", avgRentAed: 162_500 },
+  { id: "al-raha-beach", label: "Al Raha Beach", avgRentAed: 174_000 },
+  { id: "khalifa-city", label: "Khalifa City", avgRentAed: 116_000 },
+  { id: "al-zahiyah", label: "Al Zahiyah", avgRentAed: 135_500 },
 ];
 
 export function calculateReraIncrease(
