@@ -9,12 +9,12 @@ export const BRAND = {
   track: "Future Communities",
 } as const;
 
+/** Octet Branded SaaS palette */
 export const BRAND_COLORS = {
-  oasis: "#1a6b5c",
-  oasisLight: "#e8f4f1",
-  gold: "#c9923a",
-  goldLight: "#faf3e6",
-  pearl: "#faf9f6",
-  dusk: "#161c28",
-  seaMist: "#d4e8e4",
+  brightGrey: "#ebedf1",
+  shyBlunt: "#d4d8df",
+  greyTimberWolf: "#acadb1",
+  smokedPearl: "#706f70",
+  jetBlack: "#353536",
+  reversedGrey: "#080808",
 } as const;

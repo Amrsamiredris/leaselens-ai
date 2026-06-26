@@ -115,16 +115,10 @@ export function DashboardClient() {
   return (
     <>
       <header className="mb-8">
-        <h1
-          className="text-[1.4rem] font-semibold"
-          style={{ color: "var(--text-primary)" }}
-        >
+        <h1 className="text-2xl font-semibold tracking-tight text-[var(--text-primary)]">
           Operations dashboard
         </h1>
-        <p
-          className="mt-1 text-[0.88rem]"
-          style={{ color: "var(--text-secondary)" }}
-        >
+        <p className="mt-1 text-sm text-[var(--text-secondary)]">
           {BRAND.subtitle}
         </p>
       </header>
@@ -142,10 +136,7 @@ export function DashboardClient() {
         onClear={handleClear}
       />
 
-      <p
-        className="mt-10 text-center text-[0.72rem]"
-        style={{ color: "var(--text-muted)" }}
-      >
+      <p className="mt-10 text-center text-[0.72rem] text-[var(--text-muted)]">
         {PORTFOLIO.dataNotice}
       </p>
     </>

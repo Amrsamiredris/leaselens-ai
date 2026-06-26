@@ -107,7 +107,7 @@ export function RenewalNoticeDialog({
         className="max-h-[90dvh] w-[min(560px,90vw)] max-w-[560px] overflow-y-auto rounded-[var(--radius-lg)] border p-0 shadow-none sm:max-w-[560px]"
         style={{
           background: "var(--bg-card)",
-          borderColor: "var(--border-gold)",
+          borderColor: "var(--border-default)",
           color: "var(--text-primary)",
         }}
       >
@@ -122,14 +122,7 @@ export function RenewalNoticeDialog({
             >
               90-Day Renewal Notice
             </DialogTitle>
-            <span
-              className="inline-block rounded-[var(--radius-pill)] border px-[0.65rem] py-[0.22rem] text-[0.7rem] font-medium"
-              style={{
-                background: "var(--gold-dim)",
-                borderColor: "var(--gold-border)",
-                color: "var(--gold-text)",
-              }}
-            >
+            <span className="inline-block rounded-[var(--radius-pill)] border border-[var(--border-default)] bg-[var(--bg-inset)] px-[0.65rem] py-[0.22rem] text-[0.7rem] font-medium text-[var(--text-secondary)]">
               RERA Compliant · Decree No. 43 of 2013
             </span>
           </div>
@@ -150,14 +143,14 @@ export function RenewalNoticeDialog({
           >
             <TabsTrigger
               value="whatsapp"
-              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] shadow-none data-[state=active]:border-[var(--gold)] data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] shadow-none data-[state=active]:border-[var(--text-primary)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--text-primary)] data-[state=active]:shadow-none"
               style={{ color: "var(--text-secondary)" }}
             >
               WhatsApp Message
             </TabsTrigger>
             <TabsTrigger
               value="email"
-              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] shadow-none data-[state=active]:border-[var(--gold)] data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] shadow-none data-[state=active]:border-[var(--text-primary)] data-[state=active]:bg-transparent data-[state=active]:text-[var(--text-primary)] data-[state=active]:shadow-none"
               style={{ color: "var(--text-secondary)" }}
             >
               Formal Email

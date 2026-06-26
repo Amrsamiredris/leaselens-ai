@@ -59,16 +59,10 @@ export function ExtractedDataPanel({
     <div className="extracted-card mb-4 p-[1.4rem_1.6rem]">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p
-            className="text-[0.65rem] font-medium uppercase tracking-[0.1em]"
-            style={{ color: "var(--text-muted)" }}
-          >
+          <p className="text-[0.65rem] font-medium uppercase tracking-[0.1em] text-[var(--text-muted)]">
             Extracted lease data
           </p>
-          <p
-            className="mt-[0.2rem] text-[0.82rem]"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="mt-[0.2rem] text-[0.82rem] text-[var(--text-secondary)]">
             {isDone
               ? "AI-parsed fields from your tenancy contract"
               : "Upload a contract to extract lease terms"}
@@ -78,8 +72,7 @@ export function ExtractedDataPanel({
           <button
             type="button"
             onClick={onClear}
-            className="shrink-0 border-none bg-transparent text-[0.72rem]"
-            style={{ color: "var(--text-muted)" }}
+            className="shrink-0 border-none bg-transparent text-[0.72rem] text-[var(--text-muted)]"
           >
             Clear
           </button>
@@ -95,13 +88,9 @@ export function ExtractedDataPanel({
           {rows.map((row) => (
             <div
               key={row.label}
-              className="flex items-center justify-between gap-4 border-b py-[0.55rem] last:border-b-0"
-              style={{ borderColor: "var(--border-default)" }}
+              className="flex items-center justify-between gap-4 border-b border-[var(--border-default)] py-[0.55rem] last:border-b-0"
             >
-              <span
-                className="text-[0.8rem]"
-                style={{ color: "var(--text-secondary)" }}
-              >
+              <span className="text-[0.8rem] text-[var(--text-secondary)]">
                 {row.label}
               </span>
               <span

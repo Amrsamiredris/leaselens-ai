@@ -8,9 +8,9 @@ type EjariCountdownProps = {
 };
 
 function getRingColor(daysRemaining: number): string {
-  if (daysRemaining > 90) return "var(--green-ok)";
-  if (daysRemaining >= 60) return "var(--amber-warn)";
-  return "var(--red-alert)";
+  if (daysRemaining > 90) return "var(--green)";
+  if (daysRemaining >= 60) return "var(--amber)";
+  return "var(--red)";
 }
 
 export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
@@ -26,8 +26,8 @@ export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
   const isCritical = status.daysRemaining < 30;
 
   return (
-    <div className="flex flex-col items-center gap-3 border-b border-token pb-5">
-      <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+    <div className="flex flex-col items-center gap-3 border-b border-[var(--border-default)] pb-5">
+      <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-[var(--text-muted)]">
         Ejari renewal countdown
       </p>
 
@@ -42,7 +42,7 @@ export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
             cy="60"
             r="54"
             fill="none"
-            stroke="var(--border)"
+            stroke="var(--border-default)"
             strokeWidth="4"
           />
           <circle
@@ -61,29 +61,29 @@ export function EjariCountdown({ ejariExpiryDate }: EjariCountdownProps) {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-[2rem] tabular-nums text-white-token">
+          <span className="text-[2rem] font-bold tabular-nums text-[var(--text-primary)]">
             {status.daysRemaining}
           </span>
-          <span className="text-[0.72rem] text-slate-token">days left</span>
+          <span className="text-[0.72rem] text-[var(--text-secondary)]">days left</span>
         </div>
       </div>
 
       <p
         className={cn(
           "text-center text-[0.72rem] font-medium",
-          status.daysRemaining > 90 && "text-green-ok",
+          status.daysRemaining > 90 && "text-[var(--green-text)]",
           status.daysRemaining >= 60 &&
             status.daysRemaining <= 90 &&
-            "text-amber-warn",
-          status.daysRemaining < 60 && "text-red-alert"
+            "text-[var(--amber-text)]",
+          status.daysRemaining < 60 && "text-[var(--red)]"
         )}
       >
         {status.label}
       </p>
 
-      <p className="text-center text-[0.72rem] text-slate-token">
+      <p className="text-center text-[0.72rem] text-[var(--text-secondary)]">
         90-day notice window opened{" "}
-        <span className="font-medium text-white-token">
+        <span className="font-medium text-[var(--text-primary)]">
           {status.noticeWindowOpened}
         </span>
       </p>

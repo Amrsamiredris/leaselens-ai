@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { CheckCircle2, FileUp, RotateCcw, Upload } from "lucide-react";
+import { CheckCircle2, FileUp, RotateCcw } from "lucide-react";
 
 import type { UploadState } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -64,24 +64,15 @@ export function UploadZone({
             className="mx-auto mb-3 size-10"
             style={{ color: "var(--green-text)" }}
           />
-          <p
-            className="text-[0.92rem] font-medium"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <p className="text-[0.92rem] font-medium text-[var(--text-primary)]">
             Contract processed
           </p>
           {fileName && (
-            <p
-              className="mt-1 text-[0.8rem]"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <p className="mt-1 text-[0.8rem] text-[var(--text-secondary)]">
               {fileName}
             </p>
           )}
-          <p
-            className="mt-2 text-[0.8rem]"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="mt-2 text-[0.8rem] text-[var(--text-secondary)]">
             Lease terms extracted. Review the panel on the right.
           </p>
         </div>
@@ -126,8 +117,8 @@ export function UploadZone({
         onKeyDown={onKeyDown}
         className={cn(
           "upload-zone",
-          isDragging && "border-[var(--gold)]",
-          uploadState === "loading" && "cursor-wait"
+          isDragging && "border-[var(--text-secondary)] bg-[var(--bg-card-muted)]",
+          uploadState === "loading" && "relative cursor-wait overflow-hidden"
         )}
       >
         <input
@@ -139,52 +130,41 @@ export function UploadZone({
         />
 
         {uploadState === "loading" ? (
-          <div className="flex flex-col items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="ll-pulse-dot" style={{ background: "var(--gold-text)" }} aria-hidden />
-              <p
-                className="text-[0.92rem] font-medium"
-                style={{ color: "var(--gold-text)" }}
-              >
-                AI extracting clauses…
+          <>
+            <div
+              className="pointer-events-none absolute inset-0 ll-shimmer"
+              aria-hidden
+            />
+            <div className="relative flex flex-col items-center gap-3">
+              <div className="flex items-center gap-2">
+                <span className="ll-pulse-dot" aria-hidden />
+                <p className="text-[0.92rem] font-medium text-[var(--text-primary)]">
+                  AI extracting clauses…
+                </p>
+              </div>
+              <p className="text-[0.8rem] text-[var(--text-secondary)]">
+                Parsing tenant, rent, Ejari expiry, and payment terms
               </p>
+              <div className="flex w-full max-w-xs flex-col gap-2">
+                <div className="h-2 w-full animate-pulse rounded-full bg-[var(--bg-card-muted)]" />
+                <div className="h-2 w-4/5 animate-pulse rounded-full bg-[var(--bg-card-muted)]" />
+              </div>
             </div>
-            <p className="text-[0.8rem]" style={{ color: "var(--text-secondary)" }}>
-              Parsing tenant, rent, Ejari expiry, and payment terms
-            </p>
-            <div className="flex w-full max-w-xs flex-col gap-2">
-              <div className="h-2 w-full rounded-full ll-shimmer" />
-              <div className="h-2 w-4/5 rounded-full ll-shimmer" />
-            </div>
-          </div>
+          </>
         ) : (
           <>
-            <Upload
-              className="mx-auto mb-3 size-9"
-              style={{ color: "var(--gold-text)" }}
+            <FileUp
+              className="mx-auto mb-3 size-10 text-[var(--text-secondary)]"
               strokeWidth={1.5}
             />
-            <p
-              className="text-[0.92rem] font-medium"
-              style={{ color: "var(--text-primary)" }}
-            >
+            <p className="text-[0.92rem] font-medium text-[var(--text-primary)]">
               Upload tenancy contract
             </p>
-            <p
-              className="mt-[0.3rem] text-[0.8rem]"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <p className="mt-[0.3rem] text-[0.8rem] text-[var(--text-secondary)]">
               Drag and drop your Ejari PDF here, or click to browse
             </p>
-            <span
-              className="mt-3 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border px-[0.7rem] py-1 text-[0.72rem]"
-              style={{
-                background: "var(--bg-elevated)",
-                borderColor: "var(--border-default)",
-                color: "var(--text-secondary)",
-              }}
-            >
-              <FileUp className="size-3.5" style={{ color: "var(--gold-text)" }} />
+            <span className="mt-3 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border border-[var(--border-default)] bg-[var(--bg-elevated)] px-[0.7rem] py-1 text-[0.72rem] text-[var(--text-secondary)]">
+              <FileUp className="size-3.5 text-[var(--text-muted)]" strokeWidth={1.5} />
               PDF · max 10 MB
             </span>
           </>
