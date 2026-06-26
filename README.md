@@ -17,7 +17,7 @@ Built for the [Abu Dhabi AI PropTech Challenge](https://challenge.evoost.ai) at 
 | **In the live app** | Open **Judge Guide** in the sidebar, or go to `/judge` |
 | **In this repo** | [docs/JUDGE-GUIDE.md](./docs/JUDGE-GUIDE.md) |
 
-**Fastest demo path:** Dashboard → click **Load demo data** → **Generate 90-day renewal notice** → copy WhatsApp draft.
+**Fastest demo path:** Dashboard → click **Test demo** → **Generate 90-day renewal notice** → copy WhatsApp draft.
 
 No login or API key required. Upload any PDF for live Claude extraction when `ANTHROPIC_API_KEY` is configured on the deployment.
 

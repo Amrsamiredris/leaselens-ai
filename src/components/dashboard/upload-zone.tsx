@@ -173,7 +173,7 @@ export function UploadZone({
 
       {onLoadDemo && uploadState === "idle" && (
         <button type="button" className="ghost-btn mt-3" onClick={onLoadDemo}>
-          Load demo data
+          Test demo
         </button>
       )}
     </div>

@@ -38,7 +38,7 @@ const demoSteps = [
     title: "Extract a tenancy contract",
     time: "1 min",
     icon: Upload,
-    body: "Drag any PDF onto Upload tenancy contract, or click Load demo data for an instant path with no API key. Claude parses tenant, rent, Ejari expiry, and payment terms.",
+    body: "Click Test demo for the fastest path — no upload or API key needed. Or drag any PDF onto Upload tenancy contract for live Claude extraction.",
     href: "/",
     linkLabel: "Try upload on Dashboard",
   },
@@ -94,12 +94,12 @@ const evaluationCriteria = [
   "AI extraction via Claude on real PDFs (/api/extract-lease)",
   "Compliance operations — Ejari urgency, RERA caps, 90-day notices",
   "Future Communities — district community metrics joined to leases",
-  "Demo resilience — Load demo data and API fallback always work",
+  "Demo resilience — Test demo button and API fallback always work",
   "Transparent synthetic data labeling on every page",
 ] as const;
 
 const fallbacks = [
-  "Click Load demo data instead of uploading — full UI path, no API key needed",
+  "Click Test demo instead of uploading — full UI path, no API key needed",
   "Refresh the page — KPIs are static and always load from build-time JSON",
   "Upload failure auto-falls back to demo extraction (toast confirms fallback)",
   "No login, database, or local setup required for the live demo",
@@ -140,10 +140,6 @@ export default function JudgePage() {
                 contract extraction, RERA rent caps, PDC cheque tracking, and bilingual renewal
                 notices joined to Abu Dhabi community data.
               </p>
-              <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>
-                {BRAND.challenge} · {BRAND.track}
-              </p>
-
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/" className="action-btn inline-flex items-center gap-2">
                   Start demo
@@ -169,7 +165,7 @@ export default function JudgePage() {
             {[
               { label: "Time needed", value: "~5 min" },
               { label: "Login required", value: "None" },
-              { label: "Fastest path", value: "Load demo data" },
+              { label: "Fastest path", value: "Test demo" },
             ].map((stat) => (
               <div
                 key={stat.label}

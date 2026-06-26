@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: `${BRAND.product} | ${BRAND.challenge}`,
+  title: BRAND.product,
   description:
     "AI-powered lease compliance for Abu Dhabi residential communities. Track Ejari renewals, extract tenancy contracts, and automate renewal notices.",
   icons: {
