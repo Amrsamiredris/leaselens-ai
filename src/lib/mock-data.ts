@@ -36,6 +36,20 @@ export function leaseToExtraction(): LeaseExtraction {
 
 export const MOCK_LEASE_EXTRACTION = leaseToExtraction();
 
+/** Curated demo lease for one-click dashboard walkthrough */
+export const DEMO_DASHBOARD_LEASE_RAW: LeaseExtractionRaw = {
+  tenantName: "Mohammed Al Rashidi",
+  annualRentAED: 95_000,
+  ejariExpiryDate: "2026-09-28",
+  paymentTerms: "2 cheques",
+  landlordName: "Future Communities Property Management",
+  propertyAddress: "Marina Heights Tower, Apt 1204, Abu Dhabi",
+  contractStartDate: "2025-09-28",
+  specialClauses: [],
+};
+
+export const DEMO_DASHBOARD_LEASE = normalizeExtraction(DEMO_DASHBOARD_LEASE_RAW);
+
 export type NoticeContext = {
   lease: LeaseExtraction;
   rera: ReraCalculation;

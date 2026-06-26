@@ -37,49 +37,59 @@ const settingsSections = [
 
 export default function SettingsPage() {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <>
       <PageHeader title="Settings" description="Platform configuration and data policy" />
 
-      <main className="flex-1 overflow-auto p-4 md:p-6">
-        <div className="mx-auto max-w-3xl space-y-6">
-          <div className="brand-card p-6">
-            <div className="flex flex-wrap items-center gap-3">
-              <h2 className="font-display text-xl font-semibold">{BRAND.product}</h2>
-              <TrackBadge track="communities" />
-            </div>
-            <p className="mt-2 text-sm text-muted-foreground">{BRAND.challenge}</p>
-            <p className="mt-4 font-display text-lg text-foreground">{BRAND.tagline}</p>
+      <div className="mx-auto max-w-3xl space-y-6">
+        <div className="extracted-card p-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <h2
+              className="text-xl font-semibold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {BRAND.product}
+            </h2>
+            <TrackBadge track="communities" />
           </div>
-
-          {settingsSections.map((section) => {
-            const Icon = section.icon;
-            return (
-              <div key={section.title} className="brand-card p-6">
-                <div className="mb-4 flex items-center gap-2">
-                  <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <Icon className="size-4" />
-                  </div>
-                  <h3 className="font-display font-semibold text-foreground">
-                    {section.title}
-                  </h3>
-                </div>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  {section.items.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="text-primary">·</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-
-          <p className="text-center text-xs text-muted-foreground">
-            {PORTFOLIO.dataNotice}
+          <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+            {BRAND.challenge}
+          </p>
+          <p className="mt-4 text-lg" style={{ color: "var(--text-primary)" }}>
+            {BRAND.tagline}
           </p>
         </div>
-      </main>
-    </div>
+
+        {settingsSections.map((section) => {
+          const Icon = section.icon;
+          return (
+            <div key={section.title} className="extracted-card p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <div
+                  className="flex size-8 items-center justify-center rounded-[var(--radius-md)]"
+                  style={{ background: "var(--gold-dim)", color: "var(--gold-text)" }}
+                >
+                  <Icon className="size-4" />
+                </div>
+                <h3 className="font-semibold" style={{ color: "var(--text-primary)" }}>
+                  {section.title}
+                </h3>
+              </div>
+              <ul className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                {section.items.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span style={{ color: "var(--gold-text)" }}>·</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+
+        <p className="text-center text-[0.72rem]" style={{ color: "var(--text-muted)" }}>
+          {PORTFOLIO.dataNotice}
+        </p>
+      </div>
+    </>
   );
 }

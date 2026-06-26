@@ -43,7 +43,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   };
 
   return (
-    <button type="button" onClick={handleCopy} className="ll-action-btn w-auto shrink-0 px-4">
+    <button type="button" onClick={handleCopy} className="action-btn">
       {copied ? (
         <>
           <Check className="size-4" />
@@ -72,7 +72,7 @@ function DownloadTxtButton({ text, fileName }: { text: string; fileName: string 
   };
 
   return (
-    <button type="button" onClick={handleDownload} className="ll-action-btn w-auto px-4">
+    <button type="button" onClick={handleDownload} className="action-btn">
       <Download className="size-4" />
       Download as .txt
     </button>
@@ -98,43 +98,67 @@ export function RenewalNoticeDialog({
       <DialogTrigger
         disabled={!isEnabled}
         render={
-          <button
-            type="button"
-            disabled={!isEnabled}
-            className="ll-action-btn"
-          />
+          <button type="button" disabled={!isEnabled} className="action-btn" />
         }
       >
         Generate 90-day renewal notice
       </DialogTrigger>
-      <DialogContent className="max-h-[90dvh] max-w-[600px] overflow-y-auto rounded-2xl border border-gold-token bg-[var(--modal-bg)] p-0 text-white-token shadow-none sm:max-w-[600px] [&>button]:text-slate-token [&>button]:hover:text-white-token">
-        <DialogHeader className="border-b border-token px-6 pb-4 pt-6">
+      <DialogContent
+        className="max-h-[90dvh] w-[min(560px,90vw)] max-w-[560px] overflow-y-auto rounded-[var(--radius-lg)] border p-0 shadow-none sm:max-w-[560px]"
+        style={{
+          background: "var(--bg-card)",
+          borderColor: "var(--border-gold)",
+          color: "var(--text-primary)",
+        }}
+      >
+        <DialogHeader
+          className="border-b px-8 pb-4 pt-8"
+          style={{ borderColor: "var(--border-default)" }}
+        >
           <div className="flex flex-wrap items-center gap-2">
-            <DialogTitle className="ll-card-heading text-white-token">
-              90-day renewal notice
+            <DialogTitle
+              className="text-[1rem] font-semibold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              90-Day Renewal Notice
             </DialogTitle>
-            <span className="rounded-full border border-gold-token bg-[var(--gold-action-bg)] px-3 py-1 text-[0.72rem] font-medium text-gold-light">
+            <span
+              className="inline-block rounded-[var(--radius-pill)] border px-[0.65rem] py-[0.22rem] text-[0.7rem] font-medium"
+              style={{
+                background: "var(--gold-dim)",
+                borderColor: "var(--gold-border)",
+                color: "var(--gold-text)",
+              }}
+            >
               RERA Compliant · Decree No. 43 of 2013
             </span>
           </div>
-          <DialogDescription className="ll-body">
+          <DialogDescription
+            className="text-[0.82rem]"
+            style={{ color: "var(--text-secondary)" }}
+          >
             Drafted for {lease.tenantName} at {lease.propertyAddress}. Current
             rent {lease.annualRent}, max renewal {formatAed(rera.newMaxRent)},
             Ejari expires {lease.ejariExpiry}.
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="whatsapp" className="px-6 pb-6">
-          <TabsList className="h-auto w-full justify-start gap-6 rounded-none border-b border-token bg-transparent p-0">
+        <Tabs defaultValue="whatsapp" className="px-8 pb-8">
+          <TabsList
+            className="h-auto w-full justify-start gap-6 rounded-none border-b bg-transparent p-0"
+            style={{ borderColor: "var(--border-default)" }}
+          >
             <TabsTrigger
               value="whatsapp"
-              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] text-slate-token shadow-none data-[state=active]:border-[var(--gold)] data-[state=active]:bg-transparent data-[state=active]:text-white-token data-[state=active]:shadow-none"
+              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] shadow-none data-[state=active]:border-[var(--gold)] data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              style={{ color: "var(--text-secondary)" }}
             >
               WhatsApp Message
             </TabsTrigger>
             <TabsTrigger
               value="email"
-              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] text-slate-token shadow-none data-[state=active]:border-[var(--gold)] data-[state=active]:bg-transparent data-[state=active]:text-white-token data-[state=active]:shadow-none"
+              className="rounded-none border-b-2 border-transparent bg-transparent px-0 pb-3 text-[0.85rem] shadow-none data-[state=active]:border-[var(--gold)] data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              style={{ color: "var(--text-secondary)" }}
             >
               Formal Email
             </TabsTrigger>
@@ -145,20 +169,38 @@ export function RenewalNoticeDialog({
               <CopyButton text={whatsappEn} label="WhatsApp" />
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+              <p
+                className="text-[0.65rem] font-medium uppercase tracking-[0.1em]"
+                style={{ color: "var(--text-muted)" }}
+              >
                 English
               </p>
-              <pre className="whitespace-pre-wrap rounded-lg border border-token bg-[rgba(255,255,255,0.03)] p-4 text-[0.85rem] leading-[1.7] text-white-token">
+              <pre
+                className="whitespace-pre-wrap rounded-[var(--radius-md)] border p-4 text-[0.83rem] leading-[1.75]"
+                style={{
+                  background: "var(--bg-inset)",
+                  borderColor: "var(--border-default)",
+                  color: "var(--text-primary)",
+                }}
+              >
                 {whatsappEn}
               </pre>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+              <p
+                className="text-[0.65rem] font-medium uppercase tracking-[0.1em]"
+                style={{ color: "var(--text-muted)" }}
+              >
                 Arabic
               </p>
               <pre
                 dir="rtl"
-                className="whitespace-pre-wrap rounded-lg border border-token bg-[rgba(255,255,255,0.03)] p-4 text-[0.85rem] leading-[1.7] text-white-token"
+                className="whitespace-pre-wrap rounded-[var(--radius-md)] border p-4 text-[0.83rem] leading-[1.75]"
+                style={{
+                  background: "var(--bg-inset)",
+                  borderColor: "var(--border-default)",
+                  color: "var(--text-primary)",
+                }}
               >
                 {whatsappAr}
               </pre>
@@ -174,20 +216,38 @@ export function RenewalNoticeDialog({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+              <p
+                className="text-[0.65rem] font-medium uppercase tracking-[0.1em]"
+                style={{ color: "var(--text-muted)" }}
+              >
                 English
               </p>
-              <pre className="whitespace-pre-wrap rounded-lg border border-token bg-[rgba(255,255,255,0.03)] p-4 text-[0.85rem] leading-[1.7] text-white-token">
+              <pre
+                className="whitespace-pre-wrap rounded-[var(--radius-md)] border p-4 text-[0.83rem] leading-[1.75]"
+                style={{
+                  background: "var(--bg-inset)",
+                  borderColor: "var(--border-default)",
+                  color: "var(--text-primary)",
+                }}
+              >
                 {emailEn}
               </pre>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+              <p
+                className="text-[0.65rem] font-medium uppercase tracking-[0.1em]"
+                style={{ color: "var(--text-muted)" }}
+              >
                 Arabic
               </p>
               <pre
                 dir="rtl"
-                className="whitespace-pre-wrap rounded-lg border border-token bg-[rgba(255,255,255,0.03)] p-4 text-[0.85rem] leading-[1.7] text-white-token"
+                className="whitespace-pre-wrap rounded-[var(--radius-md)] border p-4 text-[0.83rem] leading-[1.75]"
+                style={{
+                  background: "var(--bg-inset)",
+                  borderColor: "var(--border-default)",
+                  color: "var(--text-primary)",
+                }}
               >
                 {emailAr}
               </pre>

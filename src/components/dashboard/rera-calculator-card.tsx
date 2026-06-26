@@ -27,10 +27,10 @@ type ReraCalculatorCardProps = {
 };
 
 const badgeVariantStyles: Record<ReraCalculation["badgeVariant"], string> = {
-  none: "ll-rera-red",
-  low: "ll-rera-amber",
-  medium: "ll-rera-amber",
-  high: "ll-rera-green",
+  none: "ll-status-bounced",
+  low: "ll-status-pending",
+  medium: "ll-status-pending",
+  high: "ll-status-cleared",
 };
 
 export function ReraCalculatorCard({
@@ -69,20 +69,28 @@ export function ReraCalculatorCard({
   };
 
   return (
-    <div className="ll-card flex flex-col p-5">
+    <div className="extracted-card mb-4 p-[1.4rem_1.6rem]">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <h2 className="ll-card-heading">Legal rent increase calculator</h2>
-          <p className="mt-0.5 ll-body">
+          <h2
+            className="text-[0.95rem] font-semibold"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Legal rent increase calculator
+          </h2>
+          <p
+            className="mt-1 text-[0.82rem]"
+            style={{ color: "var(--text-secondary)" }}
+          >
             RERA Decree No. 43 of 2013 band rules
           </p>
         </div>
-        <Scale className="size-5 shrink-0 text-gold-token" />
+        <Scale className="size-5 shrink-0" style={{ color: "var(--gold-text)" }} />
       </div>
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="current-rent" className="text-[0.78rem] text-slate-token">
+          <Label htmlFor="current-rent" className="text-[0.78rem]" style={{ color: "var(--text-secondary)" }}>
             Current annual rent (AED)
           </Label>
           <Input
@@ -93,29 +101,29 @@ export function ReraCalculatorCard({
             onChange={(event) =>
               setCurrentRent(Math.max(0, Number(event.target.value) || 0))
             }
-            className="ll-input h-10 border-token bg-[var(--input-bg)] text-white-token placeholder:text-slate-token"
+            className="ll-input h-10"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label htmlFor="zone-select" className="text-[0.78rem] text-slate-token">
+          <Label htmlFor="zone-select" className="text-[0.78rem]" style={{ color: "var(--text-secondary)" }}>
             Market zone
           </Label>
           <Select value={selectedZone} onValueChange={handleZoneChange}>
-            <SelectTrigger
-              id="zone-select"
-              className="ll-input h-10 border-token bg-[var(--input-bg)] text-white-token"
-            >
+            <SelectTrigger id="zone-select" className="ll-input h-10">
               <SelectValue placeholder="Select zone" />
             </SelectTrigger>
-            <SelectContent className="border-token bg-navy-mid text-white-token">
+            <SelectContent
+              className="border"
+              style={{
+                background: "var(--bg-card)",
+                borderColor: "var(--border-default)",
+                color: "var(--text-primary)",
+              }}
+            >
               <SelectGroup>
                 {DUBAI_ZONES.map((zone) => (
-                  <SelectItem
-                    key={zone.id}
-                    value={zone.id}
-                    className="text-white-token focus:bg-[var(--surface)] focus:text-white-token"
-                  >
+                  <SelectItem key={zone.id} value={zone.id}>
                     {zone.label} ({formatAed(zone.avgRentAed)})
                   </SelectItem>
                 ))}
@@ -125,7 +133,7 @@ export function ReraCalculatorCard({
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label htmlFor="market-rate" className="text-[0.78rem] text-slate-token">
+          <Label htmlFor="market-rate" className="text-[0.78rem]" style={{ color: "var(--text-secondary)" }}>
             Market rate (AED)
           </Label>
           <Input
@@ -136,44 +144,62 @@ export function ReraCalculatorCard({
             onChange={(event) =>
               setMarketRate(Math.max(0, Number(event.target.value) || 0))
             }
-            className="ll-input h-10 border-token bg-[var(--input-bg)] text-white-token placeholder:text-slate-token"
+            className="ll-input h-10"
           />
         </div>
 
-        <div className="rounded-lg border border-token bg-[var(--surface)] p-4">
+        <div
+          className="rounded-[var(--radius-md)] border p-4"
+          style={{
+            background: "var(--bg-inset)",
+            borderColor: "var(--border-default)",
+          }}
+        >
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-[0.72rem] text-slate-token">
+              <p className="text-[0.72rem]" style={{ color: "var(--text-secondary)" }}>
                 Maximum legal increase
               </p>
-              <p className="font-display text-[1.6rem] text-green-ok">
+              <p
+                className="text-[1.6rem] font-semibold"
+                style={{ color: "var(--green-text)" }}
+              >
                 {result.maxIncreasePercent}%
               </p>
             </div>
-            <span
-              className={cn(
-                "rounded-full border px-3 py-1 text-[0.72rem] font-medium",
-                badgeVariantStyles[result.badgeVariant]
-              )}
-            >
+            <span className={cn(badgeVariantStyles[result.badgeVariant])}>
               {result.maxIncreasePercent === 0
                 ? "No increase permitted"
                 : `Up to ${result.maxIncreasePercent}%`}
             </span>
           </div>
 
-          <div className="mt-3 border-t border-token pt-3">
-            <p className="text-[0.72rem] text-slate-token">New maximum rent</p>
-            <p className="text-[1.1rem] font-medium text-white-token">
+          <div
+            className="mt-3 border-t pt-3"
+            style={{ borderColor: "var(--border-default)" }}
+          >
+            <p className="text-[0.72rem]" style={{ color: "var(--text-secondary)" }}>
+              New maximum rent
+            </p>
+            <p
+              className="text-[1.1rem] font-medium"
+              style={{ color: "var(--text-primary)" }}
+            >
               {formatAed(result.newMaxRent)}
             </p>
-            <p className="mt-1 text-[0.72rem] text-slate-token">
+            <p className="mt-1 text-[0.72rem]" style={{ color: "var(--text-muted)" }}>
               {result.percentBelowMarket.toFixed(1)}% below market rate
             </p>
           </div>
         </div>
 
-        <p className="border-t border-token pt-[0.6rem] text-[0.72rem] italic leading-relaxed text-slate-token">
+        <p
+          className="border-t pt-[0.6rem] text-[0.72rem] italic leading-relaxed"
+          style={{
+            borderColor: "var(--border-default)",
+            color: "var(--text-muted)",
+          }}
+        >
           Based on RERA Decree No. 43 of 2013. Verify against the official DLD
           Smart Rental Index before issuing notice.
         </p>

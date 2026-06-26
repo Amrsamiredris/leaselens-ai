@@ -11,6 +11,7 @@ type UploadZoneProps = {
   fileName: string | null;
   onUpload: (file: File) => void;
   onReset: () => void;
+  onLoadDemo?: () => void;
 };
 
 export function UploadZone({
@@ -18,6 +19,7 @@ export function UploadZone({
   fileName,
   onUpload,
   onReset,
+  onLoadDemo,
 }: UploadZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -53,26 +55,45 @@ export function UploadZone({
 
   if (uploadState === "done") {
     return (
-      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border border-gold-token bg-[var(--gold-action-bg)] p-8 text-center">
-        <CheckCircle2 className="size-12 text-green-ok" />
-        <p className="mt-4 text-[0.85rem] font-medium text-white-token">
-          Contract processed
-        </p>
-        {fileName && (
-          <p className="mt-1 text-[0.78rem] text-slate-token">{fileName}</p>
-        )}
-        <p className="mt-2 text-[0.78rem] text-slate-token">
-          Lease terms extracted. Review the panel on the right.
-        </p>
+      <div className="mt-5">
+        <div
+          className="upload-zone cursor-default"
+          style={{ borderStyle: "solid", background: "var(--green-dim)" }}
+        >
+          <CheckCircle2
+            className="mx-auto mb-3 size-10"
+            style={{ color: "var(--green-text)" }}
+          />
+          <p
+            className="text-[0.92rem] font-medium"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Contract processed
+          </p>
+          {fileName && (
+            <p
+              className="mt-1 text-[0.8rem]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              {fileName}
+            </p>
+          )}
+          <p
+            className="mt-2 text-[0.8rem]"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Lease terms extracted. Review the panel on the right.
+          </p>
+        </div>
         <button
           type="button"
-          className="ll-action-btn mt-6 w-auto px-5"
+          className="ghost-btn mt-3 w-full"
           onClick={() => {
             if (inputRef.current) inputRef.current.value = "";
             onReset();
           }}
         >
-          <RotateCcw className="size-4" />
+          <RotateCcw className="mr-1.5 inline size-3.5" />
           Upload another contract
         </button>
         <input
@@ -87,67 +108,93 @@ export function UploadZone({
   }
 
   return (
-    <div
-      role="button"
-      tabIndex={uploadState === "loading" ? -1 : 0}
-      aria-label="Upload tenancy contract PDF"
-      aria-busy={uploadState === "loading"}
-      onDragOver={(event) => {
-        event.preventDefault();
-        if (uploadState !== "loading") setIsDragging(true);
-      }}
-      onDragLeave={() => setIsDragging(false)}
-      onDrop={onDrop}
-      onClick={() => {
-        if (uploadState !== "loading") inputRef.current?.click();
-      }}
-      onKeyDown={onKeyDown}
-      className={cn(
-        "flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-xl border-[1.5px] border-dashed p-8 text-center transition-[color,border-color,background] duration-150 ease-in-out motion-reduce:transition-none",
-        "border-[rgba(201,168,76,0.3)] bg-[var(--gold-subtle-bg)] hover:border-[rgba(201,168,76,0.45)] hover:bg-[rgba(201,168,76,0.05)]",
-        isDragging && "border-[rgba(201,168,76,0.55)] bg-[rgba(201,168,76,0.06)]",
-        uploadState === "loading" && "cursor-wait"
-      )}
-    >
-      <input
-        ref={inputRef}
-        type="file"
-        accept=".pdf,application/pdf"
-        className="sr-only"
-        onChange={(event) => handleFile(event.target.files?.[0])}
-      />
+    <div className="mt-5">
+      <div
+        role="button"
+        tabIndex={uploadState === "loading" ? -1 : 0}
+        aria-label="Upload tenancy contract PDF"
+        aria-busy={uploadState === "loading"}
+        onDragOver={(event) => {
+          event.preventDefault();
+          if (uploadState !== "loading") setIsDragging(true);
+        }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={onDrop}
+        onClick={() => {
+          if (uploadState !== "loading") inputRef.current?.click();
+        }}
+        onKeyDown={onKeyDown}
+        className={cn(
+          "upload-zone",
+          isDragging && "border-[var(--gold)]",
+          uploadState === "loading" && "cursor-wait"
+        )}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".pdf,application/pdf"
+          className="sr-only"
+          onChange={(event) => handleFile(event.target.files?.[0])}
+        />
 
-      {uploadState === "loading" ? (
-        <div className="flex w-full max-w-sm flex-col items-center gap-4">
-          <div className="flex items-center gap-2.5">
-            <span className="ll-pulse-dot" aria-hidden />
-            <p className="text-[0.85rem] font-medium text-gold-light">
-              AI extracting clauses…
+        {uploadState === "loading" ? (
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="ll-pulse-dot" style={{ background: "var(--gold-text)" }} aria-hidden />
+              <p
+                className="text-[0.92rem] font-medium"
+                style={{ color: "var(--gold-text)" }}
+              >
+                AI extracting clauses…
+              </p>
+            </div>
+            <p className="text-[0.8rem]" style={{ color: "var(--text-secondary)" }}>
+              Parsing tenant, rent, Ejari expiry, and payment terms
             </p>
+            <div className="flex w-full max-w-xs flex-col gap-2">
+              <div className="h-2 w-full rounded-full ll-shimmer" />
+              <div className="h-2 w-4/5 rounded-full ll-shimmer" />
+            </div>
           </div>
-          <p className="text-[0.78rem] text-slate-token">
-            Parsing tenant, rent, Ejari expiry, and payment terms
-          </p>
-          <div className="flex w-full flex-col gap-2">
-            <div className="h-2.5 w-full rounded-full ll-shimmer" />
-            <div className="h-2.5 w-4/5 rounded-full ll-shimmer" />
-            <div className="h-2.5 w-3/5 rounded-full ll-shimmer" />
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center gap-3">
-          <Upload className="size-14 text-gold-light" strokeWidth={1.25} />
-          <p className="text-[0.85rem] font-medium text-white-token">
-            Upload tenancy contract
-          </p>
-          <p className="max-w-xs text-[0.78rem] text-slate-token">
-            Drag and drop your Ejari PDF here, or click to browse
-          </p>
-          <div className="mt-2 flex items-center gap-2 text-[0.72rem] text-slate-token">
-            <FileUp className="size-3.5 text-gold-token" />
-            PDF · max 10 MB
-          </div>
-        </div>
+        ) : (
+          <>
+            <Upload
+              className="mx-auto mb-3 size-9"
+              style={{ color: "var(--gold-text)" }}
+              strokeWidth={1.5}
+            />
+            <p
+              className="text-[0.92rem] font-medium"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Upload tenancy contract
+            </p>
+            <p
+              className="mt-[0.3rem] text-[0.8rem]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Drag and drop your Ejari PDF here, or click to browse
+            </p>
+            <span
+              className="mt-3 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border px-[0.7rem] py-1 text-[0.72rem]"
+              style={{
+                background: "var(--bg-elevated)",
+                borderColor: "var(--border-default)",
+                color: "var(--text-secondary)",
+              }}
+            >
+              <FileUp className="size-3.5" style={{ color: "var(--gold-text)" }} />
+              PDF · max 10 MB
+            </span>
+          </>
+        )}
+      </div>
+
+      {onLoadDemo && uploadState === "idle" && (
+        <button type="button" className="ghost-btn mt-3" onClick={onLoadDemo}>
+          Load demo data
+        </button>
       )}
     </div>
   );

@@ -29,6 +29,8 @@ type DashboardBentoProps = {
   onReraChange: (result: ReraCalculation) => void;
   onUpload: (file: File) => void;
   onReset: () => void;
+  onLoadDemo: () => void;
+  onClear: () => void;
 };
 
 export function DashboardBento({
@@ -40,6 +42,8 @@ export function DashboardBento({
   onReraChange,
   onUpload,
   onReset,
+  onLoadDemo,
+  onClear,
 }: DashboardBentoProps) {
   const isDone = uploadState === "done";
   const showCheques = useMemo(
@@ -55,23 +59,30 @@ export function DashboardBento({
   } = useChequeSchedule(extraction, showCheques);
 
   return (
-    <div className="flex flex-col gap-4">
+    <>
       <MetricCards />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        <div className="flex flex-col gap-4 lg:col-span-7">
-          <div className="ll-card h-full p-5">
-            <div className="mb-4">
-              <h2 className="ll-card-heading">Contract intelligence</h2>
-              <p className="mt-0.5 ll-body">
-                Upload an Ejari tenancy PDF. AI extracts lease terms in seconds.
-              </p>
-            </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[55fr_45fr]">
+        <div className="flex flex-col gap-4">
+          <div className="upload-card">
+            <h2
+              className="text-[1rem] font-semibold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              AI lease extraction
+            </h2>
+            <p
+              className="mt-1 text-[0.82rem]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Upload a tenancy PDF. AI extracts lease terms in seconds.
+            </p>
             <UploadZone
               uploadState={uploadState}
               fileName={fileName}
               onUpload={onUpload}
               onReset={onReset}
+              onLoadDemo={onLoadDemo}
             />
           </div>
 
@@ -86,8 +97,13 @@ export function DashboardBento({
           )}
         </div>
 
-        <div className="flex flex-col gap-4 lg:col-span-5">
-          <ExtractedDataPanel uploadState={uploadState} data={extraction} />
+        <div className="flex flex-col">
+          <ExtractedDataPanel
+            uploadState={uploadState}
+            data={extraction}
+            rera={reraResult}
+            onClear={onClear}
+          />
 
           {isDone && (
             <ReraCalculatorCard
@@ -101,21 +117,29 @@ export function DashboardBento({
             insight={communityInsight}
           />
 
-          <div className="ll-card p-5">
-            <div className="mb-4">
-              <h2 className="ll-card-heading">Renewal automation</h2>
-              <p className="mt-0.5 ll-body">
-                Generate compliant 90-day notices from extracted data
-              </p>
+          <div className="extracted-card p-[1.4rem_1.6rem]">
+            <h2
+              className="text-[0.95rem] font-semibold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Renewal automation
+            </h2>
+            <p
+              className="mt-[0.2rem] text-[0.8rem]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Generate compliant 90-day notices from extracted data
+            </p>
+            <div className="mt-4">
+              <RenewalNoticeDialog
+                uploadState={uploadState}
+                lease={extraction}
+                rera={reraResult}
+              />
             </div>
-            <RenewalNoticeDialog
-              uploadState={uploadState}
-              lease={extraction}
-              rera={reraResult}
-            />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -4,78 +4,83 @@
 
 @layer base {
   :root {
-    /* LeaseLens design tokens */
-    --navy: #0b1c3b;
-    --navy-mid: #132847;
-    --navy-light: #1e3a5f;
-    --navy-sidebar: #091525;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-pale: #f9f3e3;
-    --slate: #8a9bb5;
-    --white: #ffffff;
-    --surface: rgba(255, 255, 255, 0.04);
-    --border: rgba(255, 255, 255, 0.08);
-    --border-gold: rgba(201, 168, 76, 0.25);
-    --red-alert: #e5534b;
-    --amber-warn: #d4870b;
-    --green-ok: #2d9e6b;
-    --modal-bg: #0e1e38;
-    --overlay: rgba(0, 0, 0, 0.7);
-    --focus-ring: rgba(201, 168, 76, 0.5);
-    --gold-subtle: rgba(201, 168, 76, 0.08);
-    --gold-subtle-bg: rgba(201, 168, 76, 0.03);
-    --gold-action-bg: rgba(201, 168, 76, 0.1);
-    --input-bg: rgba(255, 255, 255, 0.05);
-    --skeleton-bg: rgba(255, 255, 255, 0.06);
-    --sidebar-width: 220px;
+    /* Page & structure */
+    --bg-page: #070e1c;
+    --bg-sidebar: #0a1628;
+    --bg-card: #0f1e35;
+    --bg-card-hover: #142540;
+    --bg-elevated: #162b4a;
+    --bg-inset: #0c1929;
 
-    /* Status badge tints */
-    --pending-bg: rgba(212, 135, 11, 0.12);
-    --pending-border: rgba(212, 135, 11, 0.3);
-    --pending-text: #e8a030;
-    --cleared-bg: rgba(45, 158, 107, 0.12);
-    --cleared-border: rgba(45, 158, 107, 0.3);
-    --cleared-text: #3dbf85;
-    --bounced-bg: rgba(229, 83, 75, 0.12);
-    --bounced-border: rgba(229, 83, 75, 0.3);
-    --bounced-text: #f07070;
-    --bounced-banner-bg: rgba(229, 83, 75, 0.08);
-    --bounced-banner-border: rgba(229, 83, 75, 0.2);
+    /* Gold */
+    --gold: #d4a843;
+    --gold-bright: #f0c55a;
+    --gold-dim: rgba(212, 168, 67, 0.14);
+    --gold-border: rgba(212, 168, 67, 0.28);
+    --gold-text: #f0c55a;
 
-    /* shadcn bridge (dark navy theme) */
-    --background: 218 68% 14%;
-    --foreground: 0 0% 100%;
-    --card: 216 52% 18%;
-    --card-foreground: 0 0% 100%;
-    --popover: 216 52% 18%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 43 52% 54%;
-    --primary-foreground: 43 60% 96%;
-    --secondary: 216 40% 22%;
-    --secondary-foreground: 218 22% 63%;
-    --muted: 216 40% 20%;
-    --muted-foreground: 218 22% 63%;
-    --accent: 43 52% 54%;
-    --accent-foreground: 43 60% 96%;
-    --destructive: 3 76% 60%;
+    /* Text */
+    --text-primary: #edf2fa;
+    --text-secondary: #8fa5c0;
+    --text-muted: #4e6380;
+    --text-on-gold: #0a1628;
+
+    /* Borders */
+    --border-default: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.15);
+    --border-gold: rgba(212, 168, 67, 0.28);
+
+    /* Semantic */
+    --red: #e05252;
+    --red-dim: rgba(224, 82, 82, 0.12);
+    --red-border: rgba(224, 82, 82, 0.25);
+    --amber: #d48a14;
+    --amber-dim: rgba(212, 138, 20, 0.12);
+    --amber-border: rgba(212, 138, 20, 0.25);
+    --amber-text: #f0a830;
+    --green: #2ba876;
+    --green-dim: rgba(43, 168, 118, 0.12);
+    --green-border: rgba(43, 168, 118, 0.25);
+    --green-text: #3dc48a;
+
+    /* Layout */
+    --sidebar-width: 240px;
+
+    /* Typography */
+    --font-serif: "DM Serif Display", serif;
+    --font-sans: "Inter", sans-serif;
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-pill: 100px;
+
+    /* shadcn bridge */
+    --background: 220 68% 7%;
+    --foreground: 214 52% 96%;
+    --card: 216 52% 13%;
+    --card-foreground: 214 52% 96%;
+    --popover: 216 52% 13%;
+    --popover-foreground: 214 52% 96%;
+    --primary: 43 62% 55%;
+    --primary-foreground: 220 68% 9%;
+    --secondary: 216 40% 18%;
+    --secondary-foreground: 214 32% 72%;
+    --muted: 216 40% 16%;
+    --muted-foreground: 214 20% 52%;
+    --accent: 43 62% 55%;
+    --accent-foreground: 220 68% 9%;
+    --destructive: 0 72% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border-hsl: 0 0% 100% / 0.08;
-    --input: 0 0% 100% / 0.08;
-    --ring: 43 52% 54%;
-    --radius: 0.75rem;
-    --sidebar-background: 220 68% 9%;
-    --sidebar-foreground: 218 22% 63%;
-    --sidebar-primary: 43 52% 54%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 43 52% 54% / 0.08;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 100% / 0.08;
-    --sidebar-ring: 43 52% 54%;
+    --border: 0 0% 100% / 0.09;
+    --input: 0 0% 100% / 0.09;
+    --ring: 43 62% 55%;
+    --radius: 0.625rem;
   }
 
   * {
-    @apply border-[color:var(--border)];
+    border-color: var(--border-default);
   }
 
   html {
@@ -83,229 +88,266 @@
   }
 
   body {
-    background-color: var(--navy);
-    color: var(--white);
-    font-family: var(--font-sans), "Inter", system-ui, sans-serif;
-    font-size: 0.85rem;
-    line-height: 1.65;
+    margin: 0;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
   ::placeholder {
-    color: var(--slate);
+    color: var(--text-muted);
     opacity: 1;
   }
 
   *:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--focus-ring);
+    outline: 2px solid var(--gold-border);
+    outline-offset: 2px;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--navy);
+    background: var(--bg-page);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--navy-light);
-    border-radius: 3px;
+    background: var(--bg-elevated);
+    border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--navy-mid);
+    background: var(--border-strong);
   }
 }
 
 @layer components {
-  .font-display {
-    font-family: var(--font-display), "DM Serif Display", Georgia, serif;
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-default);
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    overflow-y: auto;
   }
 
+  .main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    padding: 2rem 2.5rem;
+    background: var(--bg-page);
+  }
+
+  .metric-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.15s ease;
+  }
+
+  .metric-card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .upload-card,
+  .extracted-card,
   .ll-card {
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--navy-mid);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem;
   }
 
-  .ll-metric-card {
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    padding: 1.25rem;
+  .upload-zone {
+    border: 1.5px dashed var(--gold-border);
+    background: var(--gold-dim);
+    border-radius: var(--radius-md);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
     transition:
-      color 0.15s ease,
-      border-color 0.15s ease,
-      background 0.15s ease;
+      background 0.15s ease,
+      border-color 0.15s ease;
   }
 
-  .ll-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--gold);
+  .upload-zone:hover {
+    background: rgba(212, 168, 67, 0.2);
+    border-color: var(--gold);
   }
 
-  .ll-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--slate);
+  .empty-state {
+    background: var(--bg-inset);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: 1.8rem 1.2rem;
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.6;
   }
 
-  .ll-section-title {
-    font-family: var(--font-display), "DM Serif Display", Georgia, serif;
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 400;
-    color: var(--white);
-    line-height: 1.2;
-  }
-
-  .ll-card-heading {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--white);
-  }
-
-  .ll-body {
-    font-size: 0.85rem;
-    line-height: 1.65;
-    color: var(--slate);
-  }
-
-  .ll-metric-value {
-    font-family: var(--font-display), "DM Serif Display", Georgia, serif;
-    font-size: 2rem;
-    color: var(--white);
-    line-height: 1.1;
-  }
-
-  .ll-action-btn {
-    display: inline-flex;
+  .action-btn {
     width: 100%;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius-md);
+    color: var(--gold-text);
+    font:
+      500 0.85rem var(--font-sans),
+      sans-serif;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+    text-align: center;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-gold);
-    background: var(--gold-action-bg);
-    color: var(--gold-light);
-    font-size: 0.8rem;
-    font-weight: 500;
-    transition:
-      color 0.15s ease,
-      border-color 0.15s ease,
-      background 0.15s ease;
-    cursor: pointer;
   }
 
-  .ll-action-btn:hover:not(:disabled) {
-    background: rgba(201, 168, 76, 0.16);
-    border-color: rgba(201, 168, 76, 0.4);
+  .action-btn:hover:not(:disabled) {
+    background: rgba(212, 168, 67, 0.22);
+    border-color: var(--gold);
   }
 
-  .ll-action-btn:disabled {
+  .action-btn:disabled {
     opacity: 0.45;
     cursor: not-allowed;
   }
 
-  .ll-input {
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--white);
-    font-size: 0.85rem;
+  .ghost-btn {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font:
+      400 0.78rem var(--font-sans),
+      sans-serif;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
     transition:
-      color 0.15s ease,
+      background 0.15s ease,
       border-color 0.15s ease,
-      background 0.15s ease;
+      color 0.15s ease;
   }
 
-  .ll-input:focus {
+  .ghost-btn:hover {
+    color: var(--text-primary);
     border-color: var(--border-gold);
   }
 
-  .ll-status-pending {
-    background: var(--pending-bg);
-    border: 1px solid var(--pending-border);
-    color: var(--pending-text);
-    border-radius: 100px;
-    font-size: 0.7rem;
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.62rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-right: 2px solid transparent;
+    transition: 0.15s ease;
+    cursor: pointer;
+  }
+
+  .nav-item:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-item.active {
+    color: var(--text-primary);
+    background: var(--gold-dim);
+    border-right-color: var(--gold);
     font-weight: 500;
-    padding: 0.15rem 0.6rem;
   }
 
-  .ll-status-cleared {
-    background: var(--cleared-bg);
-    border: 1px solid var(--cleared-border);
-    color: var(--cleared-text);
-    border-radius: 100px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 0.15rem 0.6rem;
+  .nav-item .nav-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    flex-shrink: 0;
   }
 
-  .ll-status-bounced {
-    background: var(--bounced-bg);
-    border: 1px solid var(--bounced-border);
-    color: var(--bounced-text);
-    border-radius: 100px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 0.15rem 0.6rem;
+  .nav-item.active .nav-icon {
+    opacity: 1;
+    color: var(--gold-text);
   }
 
-  .ll-rera-green {
-    background: rgba(45, 158, 107, 0.12);
-    border: 1px solid rgba(45, 158, 107, 0.3);
-    color: var(--green-ok);
-  }
-
-  .ll-rera-amber {
-    background: rgba(212, 135, 11, 0.12);
-    border: 1px solid rgba(212, 135, 11, 0.3);
-    color: var(--amber-warn);
-  }
-
-  .ll-rera-red {
-    background: rgba(229, 83, 75, 0.12);
-    border: 1px solid rgba(229, 83, 75, 0.3);
-    color: var(--red-alert);
-  }
-
-  .ll-nav-active {
-    color: var(--white);
-    background: var(--gold-subtle);
-    border-right: 2px solid var(--gold);
+  .ll-input {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.85rem;
   }
 
   .ll-shimmer {
     background: linear-gradient(
       90deg,
-      var(--skeleton-bg) 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      var(--skeleton-bg) 100%
+      var(--bg-inset) 0%,
+      var(--bg-elevated) 50%,
+      var(--bg-inset) 100%
     );
     background-size: 200% 100%;
     animation: ll-shimmer 1.5s ease-in-out infinite;
   }
 
   .ll-pulse-dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: var(--gold-light);
-    animation: ll-gold-pulse 1.5s ease-in-out infinite;
+    background: var(--amber-text);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
   }
 
-  .ll-countdown-pulse {
-    animation: ll-ring-pulse 1s ease-in-out infinite;
+  .fade-in-rows {
+    animation: fade-in 0.3s ease forwards;
+  }
+
+  .ll-status-pending {
+    background: var(--amber-dim);
+    border: 1px solid var(--amber-border);
+    color: var(--amber-text);
+    border-radius: var(--radius-pill);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.15rem 0.6rem;
+  }
+
+  .ll-status-cleared {
+    background: var(--green-dim);
+    border: 1px solid var(--green-border);
+    color: var(--green-text);
+    border-radius: var(--radius-pill);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.15rem 0.6rem;
+  }
+
+  .ll-status-bounced {
+    background: var(--red-dim);
+    border: 1px solid var(--red-border);
+    color: var(--red);
+    border-radius: var(--radius-pill);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.15rem 0.6rem;
   }
 }
 
@@ -313,53 +355,17 @@
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+}
 
-  .text-slate-token {
-    color: var(--slate);
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
-
-  .text-gold-light {
-    color: var(--gold-light);
-  }
-
-  .text-gold-token {
-    color: var(--gold);
-  }
-
-  .text-white-token {
-    color: var(--white);
-  }
-
-  .text-red-alert {
-    color: var(--red-alert);
-  }
-
-  .text-amber-warn {
-    color: var(--amber-warn);
-  }
-
-  .text-green-ok {
-    color: var(--green-ok);
-  }
-
-  .bg-navy {
-    background-color: var(--navy);
-  }
-
-  .bg-navy-mid {
-    background-color: var(--navy-mid);
-  }
-
-  .bg-navy-sidebar {
-    background-color: var(--navy-sidebar);
-  }
-
-  .border-token {
-    border-color: var(--border);
-  }
-
-  .border-gold-token {
-    border-color: var(--border-gold);
+  50% {
+    opacity: 0.45;
+    transform: scale(0.7);
   }
 }
 
@@ -372,37 +378,26 @@
   }
 }
 
-@keyframes ll-gold-pulse {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(0.9);
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
   }
-  50% {
+  to {
     opacity: 1;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes ll-ring-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.55;
+    transform: translateY(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ll-shimmer,
   .ll-pulse-dot,
-  .ll-countdown-pulse {
+  .fade-in-rows {
     animation: none;
   }
 }
 
 [data-slot="dialog-overlay"] {
-  background: var(--overlay) !important;
+  background: rgba(0, 0, 0, 0.65) !important;
   backdrop-filter: none !important;
 }

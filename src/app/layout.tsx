@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Inter } from "next/font/google";
 
-import { AppSidebar } from "@/components/layout/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppShell } from "@/components/layout/app-shell";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BRAND } from "@/lib/brand";
@@ -52,18 +51,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={cn("min-h-dvh bg-navy font-sans antialiased", inter.className)}>
+      <body className={cn("font-sans antialiased", inter.className)}>
         <TooltipProvider>
-          <SidebarProvider
-            style={
-              {
-                "--sidebar-width": "220px",
-              } as React.CSSProperties
-            }
-          >
-            <AppSidebar />
-            <SidebarInset className="bg-navy">{children}</SidebarInset>
-          </SidebarProvider>
+          <AppShell>{children}</AppShell>
           <Toaster position="top-right" closeButton />
         </TooltipProvider>
       </body>

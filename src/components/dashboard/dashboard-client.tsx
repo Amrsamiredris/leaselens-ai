@@ -4,10 +4,10 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { DashboardBento } from "@/components/dashboard/dashboard-bento";
-import { PageHeader } from "@/components/layout/page-header";
 import { BRAND } from "@/lib/brand";
 import { fileToBase64 } from "@/lib/lease-utils";
 import {
+  DEMO_DASHBOARD_LEASE,
   MOCK_LEASE_EXTRACTION,
   PORTFOLIO,
 } from "@/lib/mock-data";
@@ -22,6 +22,11 @@ import type {
 const DEFAULT_RERA = calculateReraIncrease(
   MOCK_LEASE_EXTRACTION.annualRentAED,
   180_000
+);
+
+const DEMO_RERA = calculateReraIncrease(
+  DEMO_DASHBOARD_LEASE.annualRentAED,
+  100_000
 );
 
 export function DashboardClient() {
@@ -60,6 +65,9 @@ export function DashboardClient() {
 
       setExtraction(data.extraction);
       setCommunityInsight(PORTFOLIO.communityInsight);
+      setReraResult(
+        calculateReraIncrease(data.extraction.annualRentAED, 180_000)
+      );
       setUploadState("done");
       toast.success("Contract processed", {
         description: "Lease terms extracted with Claude",
@@ -71,11 +79,23 @@ export function DashboardClient() {
       );
       setExtraction(MOCK_LEASE_EXTRACTION);
       setCommunityInsight(PORTFOLIO.communityInsight);
+      setReraResult(DEFAULT_RERA);
       setUploadState("done");
       toast.success("Contract processed", {
         description: "Demo extraction loaded (API fallback)",
       });
     }
+  }, []);
+
+  const handleLoadDemo = useCallback(() => {
+    setFileName("demo-tenancy-contract.pdf");
+    setExtraction(DEMO_DASHBOARD_LEASE);
+    setCommunityInsight(PORTFOLIO.communityInsight);
+    setReraResult(DEMO_RERA);
+    setUploadState("done");
+    toast.success("Demo data loaded", {
+      description: "Mohammed Al Rashidi lease ready for review",
+    });
   }, []);
 
   const handleReset = useCallback(() => {
@@ -86,42 +106,48 @@ export function DashboardClient() {
     setReraResult(DEFAULT_RERA);
   }, []);
 
-  const leaseData = extraction ?? MOCK_LEASE_EXTRACTION;
+  const handleClear = useCallback(() => {
+    handleReset();
+  }, [handleReset]);
+
+  const leaseData = extraction ?? DEMO_DASHBOARD_LEASE;
 
   return (
-    <div className="flex min-h-dvh flex-col bg-navy">
-      <PageHeader
-        title="Operations dashboard"
-        description={BRAND.subtitle}
-        showTrackBadge
+    <>
+      <header className="mb-8">
+        <h1
+          className="text-[1.4rem] font-semibold"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Operations dashboard
+        </h1>
+        <p
+          className="mt-1 text-[0.88rem]"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {BRAND.subtitle}
+        </p>
+      </header>
+
+      <DashboardBento
+        uploadState={uploadState}
+        fileName={fileName}
+        extraction={leaseData}
+        communityInsight={communityInsight ?? PORTFOLIO.communityInsight}
+        reraResult={reraResult}
+        onReraChange={handleReraChange}
+        onUpload={handleUpload}
+        onReset={handleReset}
+        onLoadDemo={handleLoadDemo}
+        onClear={handleClear}
       />
 
-      <main className="flex-1 overflow-auto p-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-6">
-            <p className="ll-section-title">{BRAND.tagline}</p>
-            <p className="mt-2 max-w-2xl ll-body">
-              Monitor Ejari compliance, extract tenancy contracts with AI, and
-              draft renewal notices for Abu Dhabi communities.
-            </p>
-          </div>
-
-          <DashboardBento
-            uploadState={uploadState}
-            fileName={fileName}
-            extraction={leaseData}
-            communityInsight={communityInsight ?? PORTFOLIO.communityInsight}
-            reraResult={reraResult}
-            onReraChange={handleReraChange}
-            onUpload={handleUpload}
-            onReset={handleReset}
-          />
-
-          <p className="mt-8 text-center text-[0.72rem] text-slate-token">
-            {PORTFOLIO.dataNotice}
-          </p>
-        </div>
-      </main>
-    </div>
+      <p
+        className="mt-10 text-center text-[0.72rem]"
+        style={{ color: "var(--text-muted)" }}
+      >
+        {PORTFOLIO.dataNotice}
+      </p>
+    </>
   );
 }
