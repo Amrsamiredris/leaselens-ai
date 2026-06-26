@@ -59,16 +59,21 @@ export function PdcChequeSchedule({
   if (schedule.length === 0) return null;
 
   return (
-    <div className="ll-card flex flex-col p-5">
+    <div className="upload-card">
       <div className="mb-4">
-        <h2 className="ll-card-heading">PDC cheque schedule</h2>
-        <p className="mt-0.5 ll-body">
+        <h2
+          className="text-[0.95rem] font-semibold"
+          style={{ color: "var(--text-primary)" }}
+        >
+          PDC cheque schedule
+        </h2>
+        <p className="mt-1 text-[0.82rem]" style={{ color: "var(--text-secondary)" }}>
           Auto-generated from {lease.paymentTerms} · {lease.annualRent}/yr
         </p>
       </div>
 
       <div className="mb-4 flex flex-col gap-2">
-        <Label htmlFor="cheque-offset" className="text-[0.78rem] text-slate-token">
+        <Label htmlFor="cheque-offset" className="text-[0.78rem]" style={{ color: "var(--text-secondary)" }}>
           First cheque offset (days from contract start)
         </Label>
         <Input
@@ -80,18 +85,23 @@ export function PdcChequeSchedule({
           onChange={(event) =>
             onOffsetChange(Math.max(0, Number(event.target.value) || 0))
           }
-          className="ll-input h-10 max-w-[200px] border-token bg-[var(--input-bg)] text-white-token"
+          className="ll-input h-10 max-w-[200px]"
         />
       </div>
 
       {hasBounced && (
-        <div className="mb-4 flex items-start gap-2.5 rounded-lg border border-[var(--bounced-banner-border)] bg-[var(--bounced-banner-bg)] px-4 py-[0.7rem]">
-          <AlertTriangle className="mt-0.5 size-4 shrink-0 text-[var(--bounced-text)]" />
+        <div
+          className="mb-4 flex items-start gap-2.5 rounded-[var(--radius-md)] border px-4 py-[0.7rem]"
+          style={{
+            background: "var(--red-dim)",
+            borderColor: "var(--red-border)",
+            color: "var(--red)",
+          }}
+        >
+          <AlertTriangle className="mt-0.5 size-4 shrink-0" />
           <div>
-            <p className="text-[0.8rem] font-medium text-[var(--bounced-text)]">
-              Bounced cheque detected
-            </p>
-            <p className="mt-0.5 text-[0.78rem] text-[var(--bounced-text)]">
+            <p className="text-[0.8rem] font-medium">Bounced cheque detected</p>
+            <p className="mt-0.5 text-[0.78rem]">
               Initiate legal notice within 14 days under UAE Cheques Law.
             </p>
           </div>
@@ -101,17 +111,17 @@ export function PdcChequeSchedule({
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-token hover:bg-transparent">
-              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+            <TableRow className="hover:bg-transparent" style={{ borderColor: "var(--border-default)" }}>
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em]" style={{ color: "var(--text-muted)" }}>
                 Cheque #
               </TableHead>
-              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em]" style={{ color: "var(--text-muted)" }}>
                 Due date
               </TableHead>
-              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em]" style={{ color: "var(--text-muted)" }}>
                 Amount (AED)
               </TableHead>
-              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em] text-slate-token">
+              <TableHead className="text-[0.68rem] font-medium uppercase tracking-[0.08em]" style={{ color: "var(--text-muted)" }}>
                 Status
               </TableHead>
             </TableRow>
@@ -120,15 +130,16 @@ export function PdcChequeSchedule({
             {schedule.map((item) => (
               <TableRow
                 key={item.number}
-                className="border-b border-token hover:bg-[var(--surface)]"
+                className="hover:bg-[var(--bg-inset)]"
+                style={{ borderColor: "var(--border-default)" }}
               >
-                <TableCell className="font-medium text-white-token">
+                <TableCell className="font-medium" style={{ color: "var(--text-primary)" }}>
                   {item.number}
                 </TableCell>
-                <TableCell className="text-slate-token">
+                <TableCell style={{ color: "var(--text-secondary)" }}>
                   {formatDisplayDate(item.dueDate)}
                 </TableCell>
-                <TableCell className="tabular-nums text-white-token">
+                <TableCell className="tabular-nums" style={{ color: "var(--text-primary)" }}>
                   {item.amountAed.toLocaleString("en-AE")}
                 </TableCell>
                 <TableCell>

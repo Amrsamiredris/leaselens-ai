@@ -1,116 +1,117 @@
 "use client";
 
-import { FileText } from "lucide-react";
-
-import { EjariCountdown } from "@/components/dashboard/ejari-countdown";
-import type { LeaseExtraction, UploadState } from "@/lib/types";
+import { formatAed } from "@/lib/rera";
+import type { LeaseExtraction, ReraCalculation, UploadState } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type ExtractedDataPanelProps = {
   uploadState: UploadState;
   data: LeaseExtraction;
+  rera: ReraCalculation;
+  onClear?: () => void;
 };
 
-const fields = [
-  { key: "propertyAddress" as const, label: "Property" },
-  { key: "tenantName" as const, label: "Tenant" },
-  { key: "landlordName" as const, label: "Landlord" },
-  { key: "annualRent" as const, label: "Annual rent" },
-  { key: "ejariExpiry" as const, label: "Ejari expiry", isExpiry: true },
-  { key: "paymentTerms" as const, label: "Payment terms" },
-  { key: "contractStartDate" as const, label: "Contract start" },
-] as const;
-
-function isExpiryUrgent(ejariExpiryDate: string): boolean {
+function getDaysRemaining(ejariExpiryDate: string): number {
   const expiry = new Date(`${ejariExpiryDate}T00:00:00`);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const msPerDay = 1000 * 60 * 60 * 24;
-  const daysRemaining = Math.ceil(
-    (expiry.getTime() - today.getTime()) / msPerDay
-  );
-  return daysRemaining < 90;
+  return Math.ceil((expiry.getTime() - today.getTime()) / msPerDay);
 }
 
 export function ExtractedDataPanel({
   uploadState,
   data,
+  rera,
+  onClear,
 }: ExtractedDataPanelProps) {
   const isDone = uploadState === "done";
-  const expiryUrgent = isExpiryUrgent(data.ejariExpiryDate);
+  const daysRemaining = getDaysRemaining(data.ejariExpiryDate);
+  const expiryUrgent = daysRemaining < 90;
+  const daysWarning = daysRemaining >= 60 && daysRemaining < 90;
+
+  const rows = [
+    { label: "Tenant", value: data.tenantName },
+    { label: "Annual rent", value: data.annualRent },
+    {
+      label: "Ejari expiry",
+      value: data.ejariExpiry,
+      valueStyle: expiryUrgent ? "var(--red)" : "var(--text-primary)",
+    },
+    {
+      label: "Days remaining",
+      value: `${daysRemaining} days`,
+      valueStyle: daysWarning
+        ? "var(--amber-text)"
+        : expiryUrgent
+          ? "var(--red)"
+          : "var(--text-primary)",
+    },
+    { label: "Payment terms", value: data.paymentTerms },
+    {
+      label: "Max legal increase",
+      value: `+${rera.maxIncreasePercent}% → ${formatAed(rera.newMaxRent)}`,
+      valueStyle: "var(--green-text)",
+    },
+  ];
 
   return (
-    <div
-      className={cn(
-        "ll-card flex flex-col p-5 transition-opacity duration-150 motion-reduce:transition-none",
-        isDone ? "opacity-100" : "opacity-95"
-      )}
-    >
-      <div className="mb-4 border-b border-token pb-3">
-        <p className="text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
-          Extracted lease data
-        </p>
-        <p className="mt-1 ll-body">
-          {isDone
-            ? "AI-parsed fields from your tenancy contract"
-            : "Upload a contract to extract lease terms"}
-        </p>
+    <div className="extracted-card mb-4 p-[1.4rem_1.6rem]">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p
+            className="text-[0.65rem] font-medium uppercase tracking-[0.1em]"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Extracted lease data
+          </p>
+          <p
+            className="mt-[0.2rem] text-[0.82rem]"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {isDone
+              ? "AI-parsed fields from your tenancy contract"
+              : "Upload a contract to extract lease terms"}
+          </p>
+        </div>
+        {isDone && onClear && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="shrink-0 border-none bg-transparent text-[0.72rem]"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Clear
+          </button>
+        )}
       </div>
 
       {!isDone ? (
-        <div className="flex flex-1 flex-col items-center justify-center rounded-lg border border-dashed border-token bg-[var(--surface)] p-8 text-center">
-          <p className="text-[0.85rem] text-slate-token">
-            Tenant, property, rent, and Ejari details appear here after upload
-          </p>
+        <div className="empty-state">
+          Tenant, property, rent, and Ejari details appear here after upload
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
-          <EjariCountdown ejariExpiryDate={data.ejariExpiryDate} />
-
-          <div className="flex flex-col">
-            {fields.map((field) => {
-              const value = data[field.key];
-              const isExpiryField = "isExpiry" in field && field.isExpiry;
-
-              return (
-                <div
-                  key={field.key}
-                  className="flex items-center justify-between gap-4 border-b border-token py-3 last:border-b-0"
-                >
-                  <span className="text-[0.78rem] text-slate-token">
-                    {field.label}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-right text-[0.85rem] font-medium text-white-token",
-                      isExpiryField && expiryUrgent && "text-red-alert"
-                    )}
-                  >
-                    {value}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          {data.specialClauses.length > 0 && (
-            <div className="border-t border-token pt-4">
-              <div className="mb-2 flex items-center gap-2 text-[0.68rem] font-medium uppercase tracking-[0.1em] text-slate-token">
-                <FileText className="size-3.5" />
-                Special clauses
-              </div>
-              <ul className="flex flex-col gap-1.5">
-                {data.specialClauses.map((clause) => (
-                  <li
-                    key={clause}
-                    className="text-[0.85rem] text-white-token before:mr-2 before:text-gold-token before:content-['•']"
-                  >
-                    {clause}
-                  </li>
-                ))}
-              </ul>
+        <div className="fade-in-rows mt-4">
+          {rows.map((row) => (
+            <div
+              key={row.label}
+              className="flex items-center justify-between gap-4 border-b py-[0.55rem] last:border-b-0"
+              style={{ borderColor: "var(--border-default)" }}
+            >
+              <span
+                className="text-[0.8rem]"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                {row.label}
+              </span>
+              <span
+                className={cn("text-right text-[0.8rem] font-medium tabular-nums")}
+                style={{ color: row.valueStyle ?? "var(--text-primary)" }}
+              >
+                {row.value}
+              </span>
             </div>
-          )}
+          ))}
         </div>
       )}
     </div>
