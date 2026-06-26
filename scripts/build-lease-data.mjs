@@ -152,6 +152,11 @@ const communityInsight = {
     "High-experience community — prioritize proactive tenancy renewals to maintain occupancy stability.",
 };
 
+const sampleLeases = rentListings
+  .filter((r) => r.status === "let" || r.status === "under_offer")
+  .slice(0, 30)
+  .map(enrichLease);
+
 const output = {
   metrics: {
     activeLeases: activeLeases.length,
@@ -160,6 +165,7 @@ const output = {
   },
   demoLease,
   communityInsight,
+  sampleLeases,
   dataNotice:
     "Metrics derived from synthetic starter-kit listings. Ejari and tenant fields are demo extensions.",
 };

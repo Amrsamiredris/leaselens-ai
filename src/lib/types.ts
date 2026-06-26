@@ -71,5 +71,6 @@ export type LeasePortfolioData = {
   metrics: DashboardMetrics;
   demoLease: LeaseCompliance;
   communityInsight: CommunityInsight;
+  sampleLeases: LeaseCompliance[];
   dataNotice: string;
 };
