@@ -7,6 +7,7 @@ export const BRAND = {
   subtitle: "Intelligence layer for Abu Dhabi communities",
   challenge: "Abu Dhabi AI PropTech Challenge · Hub71",
   track: "Future Communities",
+  pitchUrl: "https://leaselens-pitch.netlify.app",
 } as const;
 
 /** Octet Branded SaaS palette */

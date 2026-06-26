@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { ClipboardList, X } from "lucide-react";
+import { ClipboardList, Presentation, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
+import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const AUTO_HIDE_MS = 10_000;
@@ -14,6 +15,27 @@ const steps = [
   'Click "Test demo" below to load a sample lease',
   "Generate a 90-day renewal notice and copy it",
 ] as const;
+
+const chipClassName = cn(
+  "inline-flex items-center gap-2 rounded-[var(--radius-pill)] border border-[var(--border-default)]",
+  "bg-[var(--bg-card)] px-3 py-1.5 text-[0.78rem] font-medium text-[var(--text-secondary)]",
+  "shadow-float transition-colors hover:text-[var(--text-primary)]"
+);
+
+function PitchSiteChip({ className }: { className?: string }) {
+  return (
+    <a
+      href={BRAND.pitchUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(chipClassName, "hover:border-[var(--border-strong)]", className)}
+      aria-label="Open pitch site in new tab"
+    >
+      <Presentation className="size-3.5 text-[var(--text-primary)]" strokeWidth={1.75} />
+      Pitch site
+    </a>
+  );
+}
 
 export function JudgeBanner() {
   const reduceMotion = useReducedMotion();
@@ -75,38 +97,42 @@ export function JudgeBanner() {
               ))}
             </ol>
 
-            <div className="flex items-center justify-between gap-3 border-t border-[var(--border-subtle)] bg-[var(--bg-inset)] px-4 py-2.5 sm:px-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border-subtle)] bg-[var(--bg-inset)] px-4 py-2.5 sm:px-5">
               <p className="text-[0.75rem] text-[var(--text-muted)]">
                 Use the site — start with the{" "}
                 <span className="font-medium text-[var(--text-primary)]">Test demo</span> button.
               </p>
-              <Link
-                href="/judge"
-                className="shrink-0 text-[0.75rem] font-medium text-[var(--text-primary)] underline-offset-4 hover:underline"
-              >
-                Full guide →
-              </Link>
+              <div className="flex flex-wrap items-center gap-3">
+                <PitchSiteChip />
+                <Link
+                  href="/judge"
+                  className="shrink-0 text-[0.75rem] font-medium text-[var(--text-primary)] underline-offset-4 hover:underline"
+                >
+                  Full guide →
+                </Link>
+              </div>
             </div>
           </motion.div>
         ) : (
-          <motion.button
-            key="trigger"
-            type="button"
+          <motion.div
+            key="triggers"
             initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0, scale: 0.92 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            onClick={reopen}
-            className={cn(
-              "inline-flex items-center gap-2 rounded-[var(--radius-pill)] border border-[var(--border-default)]",
-              "bg-[var(--bg-card)] px-3 py-1.5 text-[0.78rem] font-medium text-[var(--text-secondary)]",
-              "shadow-float transition-colors hover:border-[var(--amber-border)] hover:text-[var(--text-primary)]"
-            )}
-            aria-label="Show judge guide"
+            className="flex flex-wrap items-center gap-2"
           >
-            <ClipboardList className="size-3.5 text-[var(--amber-text)]" strokeWidth={1.75} />
-            Judge guide
-          </motion.button>
+            <button
+              type="button"
+              onClick={reopen}
+              className={cn(chipClassName, "hover:border-[var(--amber-border)]")}
+              aria-label="Show judge guide"
+            >
+              <ClipboardList className="size-3.5 text-[var(--amber-text)]" strokeWidth={1.75} />
+              Judge guide
+            </button>
+            <PitchSiteChip />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
