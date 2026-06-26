@@ -6,6 +6,21 @@ LeaseLens AI is a B2B property management dashboard that automates UAE tenancy c
 
 Built for the [Abu Dhabi AI PropTech Challenge](https://challenge.evoost.ai) at Hub71 (Cursor x eVoost AI).
 
+---
+
+## For judges
+
+**Start here** — a ~5 minute self-guided evaluation path:
+
+| Where | Link |
+|-------|------|
+| **In the live app** | Open **Judge Guide** in the sidebar, or go to `/judge` |
+| **In this repo** | [docs/JUDGE-GUIDE.md](./docs/JUDGE-GUIDE.md) |
+
+**Fastest demo path:** Dashboard → click **Load demo data** → **Generate 90-day renewal notice** → copy WhatsApp draft.
+
+No login or API key required. Upload any PDF for live Claude extraction when `ANTHROPIC_API_KEY` is configured on the deployment.
+
 ## Hackathon data
 
 Metrics and demo lease data are derived from the [starter-kit](https://github.com/abu-dhabi-ai-proptech-challenge/starter-kit) synthetic CSVs:

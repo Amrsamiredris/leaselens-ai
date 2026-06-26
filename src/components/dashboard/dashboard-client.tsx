@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { DashboardBento } from "@/components/dashboard/dashboard-bento";
+import { JudgeBanner } from "@/components/dashboard/judge-banner";
 import { BRAND } from "@/lib/brand";
 import { fileToBase64 } from "@/lib/lease-utils";
 import {
@@ -122,6 +123,8 @@ export function DashboardClient() {
           {BRAND.subtitle}
         </p>
       </header>
+
+      <JudgeBanner />
 
       <DashboardBento
         uploadState={uploadState}

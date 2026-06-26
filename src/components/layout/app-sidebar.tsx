@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, LayoutGrid, Settings } from "lucide-react";
+import { ClipboardList, FileText, LayoutGrid, Settings } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BRAND } from "@/lib/brand";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { title: "Dashboard", href: "/", icon: LayoutGrid },
   { title: "Lease Portfolio", href: "/leases", icon: FileText },
+  { title: "Judge Guide", href: "/judge", icon: ClipboardList },
   { title: "Settings", href: "/settings", icon: Settings },
 ] as const;
 
