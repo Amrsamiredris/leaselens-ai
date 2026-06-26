@@ -1,5 +1,6 @@
 import { MapPin, Sparkles, Users } from "lucide-react";
 
+import { PORTFOLIO } from "@/lib/mock-data";
 import type { CommunityInsight, UploadState } from "@/lib/types";
 
 type CommunityInsightCardProps = {
@@ -14,6 +15,8 @@ export function CommunityInsightCard({
   if (uploadState !== "done") {
     return null;
   }
+
+  const districtProfile = PORTFOLIO.districtProfiles[insight.district];
 
   return (
     <div className="extracted-card mb-4 p-[1.4rem_1.6rem]">
@@ -109,6 +112,20 @@ export function CommunityInsightCard({
             {insight.optimizationOpportunity}. {insight.summary}
           </span>
         </p>
+
+        {districtProfile ? (
+          <div
+            className="flex items-center justify-between gap-3 border-t pt-3 text-[0.82rem]"
+            style={{ borderColor: "var(--border-default)" }}
+          >
+            <span style={{ color: "var(--text-secondary)" }}>District profile</span>
+            <span className="text-right font-medium" style={{ color: "var(--text-primary)" }}>
+              {districtProfile.profile} · Infrastructure{" "}
+              {districtProfile.infrastructureScore}/100 · Yield{" "}
+              {districtProfile.grossYield}%
+            </span>
+          </div>
+        ) : null}
       </div>
     </div>
   );

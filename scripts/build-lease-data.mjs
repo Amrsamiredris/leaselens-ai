@@ -67,6 +67,47 @@ function chequeDueThisMonth(listingId) {
   return monthSlot === now.getMonth();
 }
 
+function median(values) {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0
+    ? Math.round((sorted[mid - 1] + sorted[mid]) / 2)
+    : sorted[mid];
+}
+
+function buildMarketRatesByDistrict(transactions, rentListings) {
+  const rentTransactions = transactions.filter(
+    (row) => row.listing_type === "rent" && row.price_aed
+  );
+  const source =
+    rentTransactions.length > 0 ? rentTransactions : rentListings;
+  const byDistrict = {};
+  for (const row of source) {
+    const price = Number(row.price_aed);
+    if (!row.district || Number.isNaN(price)) continue;
+    if (!byDistrict[row.district]) byDistrict[row.district] = [];
+    byDistrict[row.district].push(price);
+  }
+  const marketRatesByDistrict = {};
+  for (const [district, prices] of Object.entries(byDistrict)) {
+    marketRatesByDistrict[district] = median(prices);
+  }
+  return marketRatesByDistrict;
+}
+
+function buildDistrictProfiles(districts) {
+  const districtProfiles = {};
+  for (const row of districts) {
+    districtProfiles[row.district] = {
+      profile: row.profile,
+      infrastructureScore: Number(row.infrastructure_score),
+      grossYield: Number(row.gross_yield_pct),
+    };
+  }
+  return districtProfiles;
+}
+
 function enrichLease(row) {
   const ejariExpiry = syntheticEjariExpiry(row.listing_id, row.listed_date);
   return {
@@ -103,10 +144,23 @@ const communitiesRaw = readFileSync(
   join(root, "data/sample_communities.csv"),
   "utf8"
 );
+const transactionsRaw = readFileSync(
+  join(root, "data/sample_transactions.csv"),
+  "utf8"
+);
+const districtsRaw = readFileSync(join(root, "data/districts.csv"), "utf8");
 
 const allListings = parseCsv(listingsRaw);
 const rentListings = allListings.filter((r) => r.listing_type === "rent");
 const communities = parseCsv(communitiesRaw);
+const transactions = parseCsv(transactionsRaw);
+const districts = parseCsv(districtsRaw);
+
+const marketRatesByDistrict = buildMarketRatesByDistrict(
+  transactions,
+  rentListings
+);
+const districtProfiles = buildDistrictProfiles(districts);
 
 const activeStatuses = new Set(["available", "let", "under_offer"]);
 const activeLeases = rentListings.filter((r) => activeStatuses.has(r.status));
@@ -166,6 +220,8 @@ const output = {
   demoLease,
   communityInsight,
   sampleLeases,
+  marketRatesByDistrict,
+  districtProfiles,
   dataNotice:
     "Metrics derived from synthetic starter-kit listings. Ejari and tenant fields are demo extensions.",
 };

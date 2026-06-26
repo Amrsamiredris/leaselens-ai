@@ -758,5 +758,129 @@
       "property_label": "Al Ghadeer Views, Al Ghadeer"
     }
   ],
+  "marketRatesByDistrict": {
+    "Al Bateen": 162500,
+    "Saadiyat Island": 199000,
+    "Yas Island": 157000,
+    "Al Reef": 109000,
+    "Al Maryah Island": 246000,
+    "Masdar City": 139000,
+    "Zayed City": 125500,
+    "Mussafah": 92500,
+    "Al Raha Beach": 174000,
+    "Al Khalidiyah": 149000,
+    "Corniche": 175000,
+    "Al Ghadeer": 102000,
+    "Al Reem Island": 172000,
+    "Al Shamkha": 121000,
+    "Khalifa City": 116000,
+    "Mohammed Bin Zayed City": 105500,
+    "Al Zahiyah": 135500,
+    "Al Bahia": 106000,
+    "Danet Abu Dhabi": 142000,
+    "Al Maqta": 120000
+  },
+  "districtProfiles": {
+    "Saadiyat Island": {
+      "profile": "premium",
+      "infrastructureScore": 92,
+      "grossYield": 6
+    },
+    "Al Maryah Island": {
+      "profile": "premium",
+      "infrastructureScore": 96,
+      "grossYield": 6
+    },
+    "Yas Island": {
+      "profile": "leisure",
+      "infrastructureScore": 88,
+      "grossYield": 7
+    },
+    "Al Reem Island": {
+      "profile": "mid_high",
+      "infrastructureScore": 86,
+      "grossYield": 7.5
+    },
+    "Al Raha Beach": {
+      "profile": "high",
+      "infrastructureScore": 87,
+      "grossYield": 7
+    },
+    "Al Bateen": {
+      "profile": "premium",
+      "infrastructureScore": 90,
+      "grossYield": 6
+    },
+    "Corniche": {
+      "profile": "established",
+      "infrastructureScore": 93,
+      "grossYield": 6.5
+    },
+    "Al Khalidiyah": {
+      "profile": "established",
+      "infrastructureScore": 89,
+      "grossYield": 6.8
+    },
+    "Al Zahiyah": {
+      "profile": "mid",
+      "infrastructureScore": 80,
+      "grossYield": 7.5
+    },
+    "Danet Abu Dhabi": {
+      "profile": "mid_high",
+      "infrastructureScore": 82,
+      "grossYield": 7
+    },
+    "Masdar City": {
+      "profile": "innovation",
+      "infrastructureScore": 90,
+      "grossYield": 7
+    },
+    "Khalifa City": {
+      "profile": "mid",
+      "infrastructureScore": 72,
+      "grossYield": 7.5
+    },
+    "Mohammed Bin Zayed City": {
+      "profile": "mid_affordable",
+      "infrastructureScore": 68,
+      "grossYield": 8
+    },
+    "Zayed City": {
+      "profile": "emerging",
+      "infrastructureScore": 70,
+      "grossYield": 7.5
+    },
+    "Al Maqta": {
+      "profile": "mid",
+      "infrastructureScore": 74,
+      "grossYield": 7.5
+    },
+    "Al Shamkha": {
+      "profile": "affordable",
+      "infrastructureScore": 63,
+      "grossYield": 8.5
+    },
+    "Al Reef": {
+      "profile": "affordable",
+      "infrastructureScore": 65,
+      "grossYield": 8.5
+    },
+    "Al Ghadeer": {
+      "profile": "affordable",
+      "infrastructureScore": 60,
+      "grossYield": 9
+    },
+    "Al Bahia": {
+      "profile": "mid",
+      "infrastructureScore": 67,
+      "grossYield": 8
+    },
+    "Mussafah": {
+      "profile": "industrial",
+      "infrastructureScore": 66,
+      "grossYield": 8.5
+    }
+  },
   "dataNotice": "Metrics derived from synthetic starter-kit listings. Ejari and tenant fields are demo extensions."
 }

@@ -21,6 +21,7 @@ export function leaseToExtractionRaw(): LeaseExtractionRaw {
     paymentTerms: lease.payment_terms,
     landlordName: "LeaseLens Property Management LLC",
     propertyAddress: lease.property_label,
+    districtName: lease.district,
     contractStartDate: "2025-10-15",
     specialClauses: [
       "No subletting without written landlord consent",

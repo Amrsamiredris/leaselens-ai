@@ -54,6 +54,7 @@ export type LeaseExtractionRaw = {
   propertyAddress: string;
   contractStartDate: string;
   specialClauses: string[];
+  districtName?: string;
 };
 
 export type LeaseExtraction = LeaseExtractionRaw & {
@@ -98,11 +99,19 @@ export type CommunityInsight = {
   summary: string;
 };
 
+export type DistrictProfile = {
+  profile: string;
+  infrastructureScore: number;
+  grossYield: number;
+};
+
 export type LeasePortfolioData = {
   metrics: DashboardMetrics;
   demoLease: LeaseCompliance;
   communityInsight: CommunityInsight;
   sampleLeases: LeaseCompliance[];
+  marketRatesByDistrict: Record<string, number>;
+  districtProfiles: Record<string, DistrictProfile>;
   dataNotice: string;
 };
 

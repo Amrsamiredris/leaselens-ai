@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PORTFOLIO } from "@/lib/mock-data";
 import {
   calculateReraIncrease,
   DUBAI_ZONES,
@@ -20,6 +21,14 @@ import {
 } from "@/lib/rera";
 import type { LeaseExtraction, ReraCalculation } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+function districtFromLease(lease: LeaseExtraction): string | undefined {
+  if (lease.districtName?.trim()) {
+    return lease.districtName.trim();
+  }
+  const parts = lease.propertyAddress.split(",");
+  return parts[parts.length - 1]?.trim() || undefined;
+}
 
 type ReraCalculatorCardProps = {
   lease: LeaseExtraction;
@@ -43,7 +52,12 @@ export function ReraCalculatorCard({
 
   useEffect(() => {
     setCurrentRent(lease.annualRentAED);
-  }, [lease.annualRentAED]);
+    const district = districtFromLease(lease);
+    const seededRate =
+      (district ? PORTFOLIO.marketRatesByDistrict[district] : undefined) ??
+      180_000;
+    setMarketRate(seededRate);
+  }, [lease.annualRentAED, lease.districtName, lease.propertyAddress]);
 
   const result = useMemo(
     () => calculateReraIncrease(currentRent, marketRate),
