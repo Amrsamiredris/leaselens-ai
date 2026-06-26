@@ -35,10 +35,20 @@ See [docs/demo-script.md](./docs/demo-script.md) for the full judge walkthrough.
 
 1. Review KPI cards (active leases, renewals in 90 days, pending cheques) — computed from 3,500+ rent listings.
 2. Upload any PDF to the contract zone.
-3. Wait 3 seconds for "AI extracting clauses..."
-4. Review extracted lease data for Saadiyat Island (Ahmed Al Mansoori, AED 211,000/yr).
-5. See **Community Context** card joined from `sample_communities.csv`.
-6. Click **Generate 90-Day Renewal Notice** and copy the WhatsApp or email draft.
+3. Claude extracts lease fields via `/api/extract-lease` (falls back to demo data if no API key).
+4. Review extracted lease data, **Ejari countdown ring**, and special clauses.
+5. Adjust **Legal Rent Increase Calculator** (RERA Decree 43 bands) and note max renewal rent.
+6. Review auto-generated **PDC cheque schedule** — toggle cheque status to demo bounced-cheque warning.
+7. See **Community Context** card joined from `sample_communities.csv`.
+8. Click **Generate 90-Day Renewal Notice** — switch WhatsApp / Email tabs, copy or download `.txt`.
+
+### Environment variables
+
+Add to `.env.local` for real AI extraction:
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-...
+```
 
 ## Tech stack
 

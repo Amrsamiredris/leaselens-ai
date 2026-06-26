@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Building2,
-  FileText,
-  LayoutDashboard,
-  Settings,
-} from "lucide-react";
+import { usePathname } from "next/navigation";
+import { FileText, LayoutDashboard, Settings } from "lucide-react";
 
+import { Logo } from "@/components/brand/logo";
+import { BRAND } from "@/lib/brand";
+import { cn } from "@/lib/utils";
 import {
   Sidebar,
   SidebarContent,
@@ -23,84 +22,81 @@ import {
 } from "@/components/ui/sidebar";
 
 const navItems = [
-  {
-    title: "Dashboard",
-    href: "/",
-    icon: LayoutDashboard,
-    active: true,
-  },
-  {
-    title: "Lease Documents",
-    href: "#",
-    icon: FileText,
-    active: false,
-  },
-  {
-    title: "Settings",
-    href: "#",
-    icon: Settings,
-    active: false,
-  },
+  { title: "Dashboard", href: "/", icon: LayoutDashboard },
+  { title: "Lease portfolio", href: "/leases", icon: FileText },
+  { title: "Settings", href: "/settings", icon: Settings },
 ] as const;
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
+    <Sidebar
+      collapsible="icon"
+      className="border-r border-token bg-navy-sidebar [&_[data-sidebar=sidebar]]:bg-navy-sidebar"
+      style={{ width: "var(--sidebar-width)" }}
+    >
+      <SidebarHeader className="border-b border-token px-4 py-5">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
+              className="h-auto bg-transparent p-0 hover:bg-transparent"
               render={
-                <Link
-                  href="/"
-                  className="flex items-center gap-2"
-                  aria-label="LeaseLens home"
-                />
+                <Link href="/" className="flex items-center gap-2" aria-label="LeaseLens home" />
               }
             >
-              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Building2 className="size-4" />
-              </div>
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold tracking-tight">LeaseLens</span>
-                <span className="text-xs text-muted-foreground">AI</span>
-              </div>
+              <Logo size="md" />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="px-0 py-2">
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="mb-1 mt-6 px-[1.2rem] text-[0.65rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+            Platform
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    isActive={item.active}
-                    tooltip={item.title}
-                    render={
-                      <Link
-                        href={item.href}
-                        aria-current={item.active ? "page" : undefined}
-                      />
-                    }
-                  >
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu className="gap-0">
+              {navItems.map((item) => {
+                const isActive =
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      tooltip={item.title}
+                      className={cn(
+                        "h-auto gap-[0.6rem] rounded-none px-[1.2rem] py-[0.65rem] text-[0.8rem] text-slate-token transition-[color,background,border-color] duration-150 ease-in-out hover:bg-[var(--gold-subtle)] hover:text-white-token",
+                        isActive && "ll-nav-active"
+                      )}
+                      render={
+                        <Link
+                          href={item.href}
+                          aria-current={isActive ? "page" : undefined}
+                        />
+                      }
+                    >
+                      <item.icon className="size-4 shrink-0" />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-4">
-        <p className="text-xs text-muted-foreground">
-          UAE property compliance
+      <SidebarFooter className="border-t border-token p-4">
+        <p className="text-[0.65rem] font-medium uppercase tracking-[0.1em] text-slate-token">
+          {BRAND.track}
+        </p>
+        <p className="mt-1 text-[0.72rem] leading-relaxed text-slate-token">
+          {BRAND.tagline}
         </p>
       </SidebarFooter>
       <SidebarRail />
